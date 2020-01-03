@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["es2017"],
+    "noEmit": true,
+    "baseUrl": ".",
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
+}

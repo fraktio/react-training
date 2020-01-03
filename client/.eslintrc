@@ -1,0 +1,13 @@
+{
+  "extends": "react-app",
+  "plugins": ["prettier", "react-hooks"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "import/no-default-export": 2,
+    "import/no-duplicates": 2,
+    "import/newline-after-import": 2,
+    "import/no-cycle": 2,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 2
+  }
+}
