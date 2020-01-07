@@ -3,12 +3,14 @@ import styled from '@emotion/styled'
 import { lighten } from 'polished'
 
 interface Props {
-  person: {
-    uuid: string
-    firstName: string
-    lastName: string
-    age: number
-  }
+  person: PersonType
+}
+
+export interface PersonType {
+  uuid: string
+  firstName: string
+  lastName: string
+  age: number
 }
 
 export function Person({ person }: Props) {
