@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { persons } from '../persons'
 import { Person } from './Person'
+import { getPersons, Person as PersonResponse } from '../services/personService'
 
 interface Props {
   isDark: boolean
@@ -9,6 +9,28 @@ interface Props {
 }
 
 export function App({ isDark, onToggleDark }: Props) {
+  const [persons, setPersons] = useState<Array<PersonResponse>>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true)
+
+      const response = await getPersons()
+
+      if (response.success) {
+        setPersons(response.value.data.persons)
+      } else {
+        setIsError(true)
+      }
+
+      setIsLoading(false)
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <div>
       <header>
@@ -21,13 +43,19 @@ export function App({ isDark, onToggleDark }: Props) {
         {isDark && <button onClick={onToggleDark}>White mode</button>}
       </header>
 
-      <ul>
-        {persons.map((person) => (
-          <li key={person.uuid}>
-            <Person person={person} />
-          </li>
-        ))}
-      </ul>
+      {isLoading && <div>Loading..</div>}
+
+      {isError && <div>Oops! Something went wrong.</div>}
+
+      {!isLoading && !isError && (
+        <ul>
+          {persons.map((person) => (
+            <li key={person.uuid}>
+              <Person person={person} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

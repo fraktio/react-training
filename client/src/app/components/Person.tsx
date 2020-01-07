@@ -20,7 +20,7 @@ export function Person({ person }: Props) {
         <li>
           name: {person.firstName} {person.lastName}
         </li>
-        <li>age: {person.age}</li>
+        <li>age: {person.age.toFixed(1)}</li>
       </ul>
     </Container>
   )
