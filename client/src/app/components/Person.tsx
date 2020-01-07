@@ -2,6 +2,8 @@
 import styled from '@emotion/styled'
 import { lighten } from 'polished'
 
+import { Button } from './Button'
+
 interface Props {
   person: PersonType
   onRemove: () => void
@@ -25,7 +27,7 @@ export function Person({ person, onRemove }: Props) {
         <li>age: {person.age.toFixed(1)}</li>
       </ul>
 
-      <button onClick={onRemove}>Remove from list</button>
+      <Button onClick={onRemove}>Remove from list</Button>
     </Container>
   )
 }
