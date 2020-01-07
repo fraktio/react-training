@@ -2,6 +2,7 @@ import React from 'react'
 import { lighten } from 'polished'
 
 import { styled } from '../theme/styled'
+import { Button } from './Button'
 
 interface Props {
   person: PersonType
@@ -26,7 +27,7 @@ export function Person({ person, onRemove }: Props) {
         <li>age: {person.age.toFixed(1)}</li>
       </ul>
 
-      <button onClick={onRemove}>Remove from list</button>
+      <Button onClick={onRemove}>Remove from list</Button>
     </Container>
   )
 }

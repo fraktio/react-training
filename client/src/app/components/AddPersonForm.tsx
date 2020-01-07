@@ -1,6 +1,9 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Button } from './Button'
+import { Input } from './Input'
+
 interface Props {
   onSubmit: (firstName: string, lastName: string) => void
 }
@@ -24,7 +27,7 @@ export function AddPersonForm({ onSubmit }: Props) {
       <div>
         <label htmlFor="firstName">First name</label>
 
-        <input name="firstName" ref={register({ required: true })} placeholder="John" />
+        <Input name="firstName" ref={register({ required: true })} placeholder="John" />
 
         {errors.firstName && <div>First name is required</div>}
       </div>
@@ -32,12 +35,12 @@ export function AddPersonForm({ onSubmit }: Props) {
       <div>
         <label htmlFor="lastName">Last name</label>
 
-        <input name="lastName" ref={register({ required: true })} placeholder="Smith" />
+        <Input name="lastName" ref={register({ required: true })} placeholder="Smith" />
 
         {errors.lastName && <div>Last name is required</div>}
       </div>
 
-      <button type="submit">Submit</button>
+      <Button type="submit">Submit</Button>
     </form>
   )
 }

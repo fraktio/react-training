@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { PersonList } from './PersonList'
 import { getPersons, Person as PersonResponse } from '../services/personService'
 import { AddPersonForm } from './AddPersonForm'
+import { Button } from './Button'
 
 interface Props {
   isDark: boolean
@@ -63,9 +64,9 @@ export function App({ isDark, onToggleDark }: Props) {
 
         <h2>Here's your persons:</h2>
 
-        {!isDark && <button onClick={onToggleDark}>Dark mode</button>}
+        {!isDark && <Button onClick={onToggleDark}>Dark mode</Button>}
 
-        {isDark && <button onClick={onToggleDark}>White mode</button>}
+        {isDark && <Button onClick={onToggleDark}>White mode</Button>}
       </header>
 
       <section>
