@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { lighten } from 'polished'
+
 interface Props {
   person: {
     uuid: string
@@ -9,8 +12,21 @@ interface Props {
 
 export function Person({ person }: Props) {
   return (
-    <>
-      id: {person.uuid}, name: {person.firstName} {person.lastName}, age: {person.age}
-    </>
+    <div
+      css={{
+        border: '2px solid black',
+        backgroundColor: lighten(0.4, 'magenta'),
+        padding: 16,
+        marginTop: 16
+      }}
+    >
+      <ul>
+        <li>id: {person.uuid}</li>
+        <li>
+          name: {person.firstName} {person.lastName}
+        </li>
+        <li>age: {person.age}</li>
+      </ul>
+    </div>
   )
 }
