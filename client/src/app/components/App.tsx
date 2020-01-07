@@ -1,5 +1,7 @@
 import { persons } from '../persons'
 
+import { persons } from '../persons'
+
 export function App() {
   return (
     <div>
