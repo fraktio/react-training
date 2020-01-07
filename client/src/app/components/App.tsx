@@ -1,11 +1,21 @@
+import { persons } from '../persons'
+
 export function App() {
   return (
     <div>
       <header>
         <h1>Welcome to Fraktio's React training!</h1>
+
+        <h2>Here's your persons:</h2>
       </header>
 
-      <code>There will be code.</code>
+      <ul>
+        {persons.map((person) => (
+          <li key={person.uuid}>
+            id: {person.uuid}, name: {person.firstName} {person.lastName}, age: {person.age}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
