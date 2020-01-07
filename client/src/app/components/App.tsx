@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 import { PersonList } from './PersonList'
 import { getPersons, Person as PersonResponse } from '../services/personService'
+import { AddPersonForm } from './AddPersonForm'
 
 interface Props {
   isDark: boolean
@@ -35,6 +37,22 @@ export function App({ isDark, onToggleDark }: Props) {
     setPersons(persons.filter((person) => person.uuid !== uuid))
   }
 
+  const handleSubmit = (firstName: string, lastName: string) => {
+    setPersons(
+      persons.concat({
+        uuid: uuidv4(),
+        firstName,
+        lastName,
+        age: 40,
+        email: 'email@example.com',
+        address: {
+          streetAddress: 'Street',
+          city: 'City'
+        }
+      })
+    )
+  }
+
   const hireablePersons = persons.filter(isHireable)
   const notHireablePersons = persons.filter((person) => !isHireable(person))
 
@@ -49,6 +67,12 @@ export function App({ isDark, onToggleDark }: Props) {
 
         {isDark && <button onClick={onToggleDark}>White mode</button>}
       </header>
+
+      <section>
+        <h3>Add a person to list</h3>
+
+        <AddPersonForm onSubmit={handleSubmit} />
+      </section>
 
       {isLoading && <div>Loading..</div>}
 
