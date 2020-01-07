@@ -4,12 +4,14 @@ import { lighten } from 'polished'
 import { styled } from '../theme/styled'
 
 interface Props {
-  person: {
-    uuid: string
-    firstName: string
-    lastName: string
-    age: number
-  }
+  person: PersonType
+}
+
+export interface PersonType {
+  uuid: string
+  firstName: string
+  lastName: string
+  age: number
 }
 
 export function Person({ person }: Props) {

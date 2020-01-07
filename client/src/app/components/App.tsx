@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Person } from './Person'
+import { PersonList } from './PersonList'
 import { getPersons, Person as PersonResponse } from '../services/personService'
 
 interface Props {
@@ -31,6 +31,9 @@ export function App({ isDark, onToggleDark }: Props) {
     fetchData()
   }, [])
 
+  const hireablePersons = persons.filter(isHireable)
+  const notHireablePersons = persons.filter((person) => !isHireable(person))
+
   return (
     <div>
       <header>
@@ -48,14 +51,28 @@ export function App({ isDark, onToggleDark }: Props) {
       {isError && <div>Oops! Something went wrong.</div>}
 
       {!isLoading && !isError && (
-        <ul>
-          {persons.map((person) => (
-            <li key={person.uuid}>
-              <Person person={person} />
-            </li>
-          ))}
-        </ul>
+        <>
+          <section>
+            <h3>Hire perhaps?</h3>
+
+            <PersonList persons={hireablePersons} showStats />
+          </section>
+
+          <section>
+            <h3>Not going to hire</h3>
+
+            <PersonList persons={notHireablePersons} />
+          </section>
+        </>
       )}
     </div>
   )
+}
+
+interface IsHireablePerson {
+  age: number
+}
+
+function isHireable(person: IsHireablePerson): boolean {
+  return person.age > 16
 }
