@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { persons } from '../persons'
+import { Person } from './Person'
 
 export function App() {
   return (
@@ -14,7 +15,7 @@ export function App() {
       <ul>
         {persons.map((person) => (
           <li key={person.uuid}>
-            id: {person.uuid}, name: {person.firstName} {person.lastName}, age: {person.age}
+            <Person person={person} />
           </li>
         ))}
       </ul>
