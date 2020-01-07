@@ -32,6 +32,10 @@ export function App({ isDark, onToggleDark }: Props) {
     fetchData()
   }, [])
 
+  const handleRemovePerson = (uuid: string) => {
+    setPersons(persons.filter((person) => person.uuid !== uuid))
+  }
+
   const hireablePersons = persons.filter(isHireable)
   const notHireablePersons = persons.filter((person) => !isHireable(person))
 
@@ -56,13 +60,13 @@ export function App({ isDark, onToggleDark }: Props) {
           <section>
             <h3>Hire perhaps?</h3>
 
-            <PersonList persons={hireablePersons} showStats />
+            <PersonList persons={hireablePersons} showStats onRemovePerson={handleRemovePerson} />
           </section>
 
           <section>
             <h3>Not going to hire</h3>
 
-            <PersonList persons={notHireablePersons} />
+            <PersonList persons={notHireablePersons} onRemovePerson={handleRemovePerson} />
           </section>
         </>
       )}

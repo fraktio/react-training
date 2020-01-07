@@ -4,6 +4,7 @@ import { lighten } from 'polished'
 
 interface Props {
   person: PersonType
+  onRemove: () => void
 }
 
 export interface PersonType {
@@ -13,7 +14,7 @@ export interface PersonType {
   age: number
 }
 
-export function Person({ person }: Props) {
+export function Person({ person, onRemove }: Props) {
   return (
     <Container>
       <ul>
@@ -23,6 +24,8 @@ export function Person({ person }: Props) {
         </li>
         <li>age: {person.age.toFixed(1)}</li>
       </ul>
+
+      <button onClick={onRemove}>Remove from list</button>
     </Container>
   )
 }

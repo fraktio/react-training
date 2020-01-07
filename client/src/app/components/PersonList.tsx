@@ -5,9 +5,10 @@ import { Person, PersonType } from './Person'
 interface Props {
   persons: Array<PersonType>
   showStats?: boolean
+  onRemovePerson: (uuid: string) => void
 }
 
-export function PersonList({ persons, showStats }: Props) {
+export function PersonList({ persons, showStats, onRemovePerson }: Props) {
   const averageAge =
     persons.reduce((acc, person) => {
       return acc + person.age
@@ -24,7 +25,7 @@ export function PersonList({ persons, showStats }: Props) {
       <ul>
         {persons.map((person) => (
           <li key={person.uuid}>
-            <Person person={person} />
+            <Person person={person} onRemove={() => onRemovePerson(person.uuid)} />
           </li>
         ))}
       </ul>
