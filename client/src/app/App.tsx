@@ -6,12 +6,7 @@ import { useSelector } from './ducks'
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
 import { getPersons } from './services/personService'
 
-interface Props {
-  isDark: boolean
-  onToggleDark: () => void
-}
-
-export function App({ isDark, onToggleDark }: Props) {
+export function App() {
   const dispatch = useDispatch()
   const { persons, isLoading, isError } = useSelector((state) => state.person)
 
@@ -57,8 +52,6 @@ export function App({ isDark, onToggleDark }: Props) {
           <Switch>
             <Route exact path="/">
               <IndexPage
-                isDark={isDark}
-                onToggleDark={onToggleDark}
                 persons={persons}
                 onAddPerson={handleAddPerson}
                 onRemovePerson={handleRemovePerson}
