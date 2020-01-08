@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { Person, PersonType as PersonPersonType } from './Person'
 
@@ -30,11 +31,18 @@ export function PersonList({ persons, showStats, onRemovePerson }: Props) {
       )}
 
       <ul>
-        {persons.map((person) => (
-          <li key={person.uuid}>
-            <Person person={person} onRemove={() => onRemovePerson(person.uuid)} />
-          </li>
-        ))}
+        <AnimatePresence>
+          {persons.map((person) => (
+            <motion.li
+              key={person.uuid}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Person person={person} onRemove={() => onRemovePerson(person.uuid)} />
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
     </Fragment>
   )
