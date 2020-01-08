@@ -4,29 +4,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { useSelector } from './ducks'
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
-import { getPersons } from './services/personService'
 
 export function App() {
   const dispatch = useDispatch()
   const { persons, isLoading, isError } = useSelector((state) => state.person)
 
   useEffect(() => {
-    async function fetchData() {
-      dispatch({ type: 'FETCH_PERSONS' })
-
-      const response = await getPersons()
-
-      if (response.success) {
-        dispatch({
-          type: 'FETCH_PERSONS_SUCCESS',
-          payload: { response: response.value }
-        })
-      } else {
-        dispatch({ type: 'FETCH_PERSONS_FAILURE' })
-      }
-    }
-
-    fetchData()
+    dispatch({ type: 'FETCH_PERSONS' })
   }, [dispatch])
 
   const handleRemovePerson = (uuid: string) => {
