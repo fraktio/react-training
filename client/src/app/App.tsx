@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { PersonList } from './PersonList'
-import { getPersons, Person as PersonResponse } from '../services/personService'
-import { AddPersonForm } from './AddPersonForm'
-import { Button } from './Button'
+import { IndexPage, PersonPage, NotFoundPage } from './pages'
+import { getPersons, Person as PersonResponse } from './services/personService'
 
 interface Props {
   isDark: boolean
@@ -38,7 +37,7 @@ export function App({ isDark, onToggleDark }: Props) {
     setPersons(persons.filter((person) => person.uuid !== uuid))
   }
 
-  const handleSubmit = (firstName: string, lastName: string) => {
+  const handleAddPerson = (firstName: string, lastName: string) => {
     setPersons(
       persons.concat({
         uuid: uuidv4(),
@@ -54,54 +53,53 @@ export function App({ isDark, onToggleDark }: Props) {
     )
   }
 
-  const hireablePersons = persons.filter(isHireable)
-  const notHireablePersons = persons.filter((person) => !isHireable(person))
-
   return (
-    <div>
+    <>
       <header>
         <h1>Welcome to Fraktio's React training!</h1>
-
-        <h2>Here's your persons:</h2>
-
-        {!isDark && <Button onClick={onToggleDark}>Dark mode</Button>}
-
-        {isDark && <Button onClick={onToggleDark}>White mode</Button>}
       </header>
-
-      <section>
-        <h3>Add a person to list</h3>
-
-        <AddPersonForm onSubmit={handleSubmit} />
-      </section>
 
       {isLoading && <div>Loading..</div>}
 
       {isError && <div>Oops! Something went wrong.</div>}
 
       {!isLoading && !isError && (
-        <>
-          <section>
-            <h3>Hire perhaps?</h3>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <IndexPage
+                isDark={isDark}
+                onToggleDark={onToggleDark}
+                persons={persons}
+                onAddPerson={handleAddPerson}
+                onRemovePerson={handleRemovePerson}
+              />
+            </Route>
 
-            <PersonList persons={hireablePersons} showStats onRemovePerson={handleRemovePerson} />
-          </section>
+            <Route path="/person/:uuid">
+              {(props) => {
+                const { match } = props
 
-          <section>
-            <h3>Not going to hire</h3>
+                if (match?.params.uuid) {
+                  const person = persons.find((person) => person.uuid === match.params.uuid)
 
-            <PersonList persons={notHireablePersons} onRemovePerson={handleRemovePerson} />
-          </section>
-        </>
+                  if (person) {
+                    return <PersonPage person={person} />
+                  }
+
+                  return <NotFoundPage />
+                }
+
+                return null
+              }}
+            </Route>
+
+            <Route>
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </Router>
       )}
-    </div>
+    </>
   )
-}
-
-interface IsHireablePerson {
-  age: number
-}
-
-function isHireable(person: IsHireablePerson): boolean {
-  return person.age > 16
 }

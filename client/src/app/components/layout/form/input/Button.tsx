@@ -1,4 +1,4 @@
-import { styled } from '../theme/styled'
+import { styled } from '../../../../theme/styled'
 import { lighten } from 'polished'
 
 export const Button = styled.button(

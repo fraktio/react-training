@@ -1,8 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Button } from './Button'
-import { Input } from './Input'
+import { Button, Input } from '../layout/form/input'
 
 interface Props {
   onSubmit: (firstName: string, lastName: string) => void
