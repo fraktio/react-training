@@ -1,4 +1,5 @@
 import faker from 'faker'
+import uuidv4 from 'uuid/v4'
 
 interface Person
   extends Readonly<{
@@ -39,5 +40,24 @@ export function generatePersons(amount: number): Person[] {
       age: probability(50) ? age : parseInt(age.toString(), 10),
       address
     }
+  })
+}
+
+export function removePerson(persons: Array<Person>, uuid: string): Array<Person> {
+  return persons.filter(person => person.uuid !== uuid)
+}
+
+export function addPerson(
+  persons: Array<Person>,
+  firstName: string,
+  lastName: string
+): Array<Person> {
+  return persons.concat({
+    uuid: uuidv4(),
+    firstName,
+    lastName,
+    email: 'email@example.com',
+    age: 40,
+    address: null
   })
 }
