@@ -5,7 +5,7 @@ import { PersonList, PersonType } from '../components/person/PersonList'
 interface Props {
   isDark: boolean
   onToggleDark: () => void
-  persons: Array<Person>
+  persons: readonly Person[]
   onAddPerson: (firstName: string, lastName: string) => void
   onRemovePerson: (uuid: string) => void
 }
