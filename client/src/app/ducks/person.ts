@@ -31,7 +31,11 @@ export type PersonAction =
   | FetchPersonsSuccessAction
   | FetchPersonsFailureAction
   | RemovePersonAction
+  | RemovePersonSuccessAction
+  | RemovePersonFailureAction
   | AddPersonAction
+  | AddPersonSuccessAction
+  | AddPersonFailureAction
 
 interface FetchPersonsAction {
   type: 'FETCH_PERSONS'
@@ -48,19 +52,42 @@ interface FetchPersonsFailureAction {
   type: 'FETCH_PERSONS_FAILURE'
 }
 
-interface RemovePersonAction {
+export interface RemovePersonAction {
   type: 'REMOVE_PERSON'
   payload: {
     uuid: string
   }
 }
 
-interface AddPersonAction {
+interface RemovePersonSuccessAction {
+  type: 'REMOVE_PERSON_SUCCESS'
+  payload: {
+    uuid: string
+  }
+}
+
+interface RemovePersonFailureAction {
+  type: 'REMOVE_PERSON_FAILURE'
+}
+
+export interface AddPersonAction {
   type: 'ADD_PERSON'
   payload: {
     firstName: string
     lastName: string
   }
+}
+
+interface AddPersonSuccessAction {
+  type: 'ADD_PERSON_SUCCESS'
+  payload: {
+    firstName: string
+    lastName: string
+  }
+}
+
+interface AddPersonFailureAction {
+  type: 'ADD_PERSON_FAILURE'
 }
 
 export function personReducer(state: State = initialState, action: Action): State {
@@ -83,12 +110,12 @@ export function personReducer(state: State = initialState, action: Action): Stat
         draftState.isError = true
       })
 
-    case 'REMOVE_PERSON':
+    case 'REMOVE_PERSON_SUCCESS':
       return produce(state, (draftState) => {
         draftState.persons = state.persons.filter((person) => person.uuid !== action.payload.uuid)
       })
 
-    case 'ADD_PERSON':
+    case 'ADD_PERSON_SUCCESS':
       return produce(state, (draftState) => {
         draftState.persons.push({
           uuid: uuidv4(),

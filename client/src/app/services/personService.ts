@@ -33,3 +33,38 @@ export async function getPersons(): Promise<Try<PersonsResponse>> {
     return failure(e instanceof Error ? e : new Error())
   }
 }
+
+export interface RemovePersonResponse {}
+
+export async function removePerson(uuid: string): Promise<Try<RemovePersonResponse>> {
+  try {
+    const response = await axios.delete<RemovePersonResponse>(`${config.API_URL}/persons/${uuid}`)
+
+    return success(response.data)
+  } catch (e) {
+    return failure(e instanceof Error ? e : new Error())
+  }
+}
+
+interface AddPersonParams {
+  firstName: string
+  lastName: string
+}
+
+export interface AddPersonResponse {}
+
+export async function addPerson({
+  firstName,
+  lastName
+}: AddPersonParams): Promise<Try<AddPersonResponse>> {
+  try {
+    const response = await axios.post<AddPersonResponse>(`${config.API_URL}/persons`, {
+      firstName,
+      lastName
+    })
+
+    return success(response.data)
+  } catch (e) {
+    return failure(e instanceof Error ? e : new Error())
+  }
+}
