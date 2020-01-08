@@ -18,6 +18,20 @@ export function createApi(): Router {
     })
   })
 
+  router.get('/persons/:uuid', (req, res) => {
+    const person = persons.find(person => person.uuid === req.params.uuid)
+
+    if (person) {
+      res.json({
+        data: {
+          person
+        }
+      })
+    } else {
+      res.status(404).json({})
+    }
+  })
+
   router.delete('/persons/:uuid', (req, res) => {
     persons = removePerson(persons, req.params.uuid)
 
