@@ -1,11 +1,16 @@
 import { Fragment } from 'react'
 
-import { Person, PersonType } from './Person'
+import { Person, PersonType as PersonPersonType } from './Person'
 
 interface Props {
   persons: Array<PersonType>
   showStats?: boolean
   onRemovePerson: (uuid: string) => void
+}
+
+export type PersonType = PersonPersonType & {
+  uuid: string
+  age: number
 }
 
 export function PersonList({ persons, showStats, onRemovePerson }: Props) {
