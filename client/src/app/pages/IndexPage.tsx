@@ -7,7 +7,7 @@ import { Button } from '../components/layout/form/input'
 interface Props {
   isDark: boolean
   onToggleDark: () => void
-  persons: Array<Person>
+  persons: readonly Person[]
   onAddPerson: (firstName: string, lastName: string) => void
   onRemovePerson: (uuid: string) => void
 }

@@ -1,15 +1,25 @@
 import React, { useReducer, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { produce } from 'immer'
 
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
-import { getPersons, PersonsResponse, Person as PersonResponse } from './services/personService'
+import { getPersons, PersonsResponse } from './services/personService'
 
-interface State {
-  persons: Array<PersonResponse>
-  isLoading: boolean
-  isError: boolean
-}
+interface State
+  extends Readonly<{
+    persons: readonly Person[]
+    isLoading: boolean
+    isError: boolean
+  }> {}
+
+interface Person
+  extends Readonly<{
+    uuid: string
+    firstName: string
+    lastName: string
+    age: number
+  }> {}
 
 const initialState: State = {
   persons: [],
@@ -57,46 +67,45 @@ interface AddPersonAction {
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'FETCH_PERSONS':
-      return {
-        ...state,
-        isLoading: true
-      }
+      return produce(state, (draftState) => {
+        draftState.isLoading = true
+      })
 
     case 'FETCH_PERSONS_SUCCESS':
-      return {
-        persons: action.payload.response.data.persons,
-        isLoading: false,
-        isError: false
-      }
+      return produce(state, (draftState) => {
+        draftState.persons = action.payload.response.data.persons.map((person) => ({
+          uuid: person.uuid,
+          firstName: person.firstName,
+          lastName: person.lastName,
+          age: person.age
+        }))
+        draftState.isLoading = false
+        draftState.isError = false
+      })
 
     case 'FETCH_PERSONS_FAILURE':
-      return {
-        ...state,
-        isLoading: false,
-        isError: true
-      }
+      return produce(state, (draftState) => {
+        draftState.isLoading = false
+        draftState.isError = true
+      })
 
     case 'REMOVE_PERSON':
-      return {
-        ...state,
-        persons: state.persons.filter((person) => person.uuid !== action.payload.uuid)
-      }
+      return produce(state, (draftState) => {
+        draftState.persons = state.persons.filter((person) => person.uuid !== action.payload.uuid)
+      })
 
     case 'ADD_PERSON':
-      return {
-        ...state,
-        persons: state.persons.concat({
+      return produce(state, (draftState) => {
+        draftState.persons.push({
           uuid: uuidv4(),
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
-          age: 40,
-          email: 'email@example.com',
-          address: {
-            streetAddress: 'Street',
-            city: 'City'
-          }
+          age: 40
         })
-      }
+      })
+
+    default:
+      return state
   }
 }
 
