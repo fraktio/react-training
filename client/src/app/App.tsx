@@ -1,113 +1,10 @@
-import React, { useReducer, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { produce } from 'immer'
+import { useDispatch } from 'react-redux'
 
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
-import { getPersons, PersonsResponse } from './services/personService'
-
-interface State
-  extends Readonly<{
-    persons: readonly Person[]
-    isLoading: boolean
-    isError: boolean
-  }> {}
-
-interface Person
-  extends Readonly<{
-    uuid: string
-    firstName: string
-    lastName: string
-    age: number
-  }> {}
-
-const initialState: State = {
-  persons: [],
-  isLoading: true,
-  isError: false
-}
-
-type Action =
-  | FetchPersonsAction
-  | FetchPersonsSuccessAction
-  | FetchPersonsFailureAction
-  | RemovePersonAction
-  | AddPersonAction
-
-interface FetchPersonsAction {
-  type: 'FETCH_PERSONS'
-}
-
-interface FetchPersonsSuccessAction {
-  type: 'FETCH_PERSONS_SUCCESS'
-  payload: {
-    response: PersonsResponse
-  }
-}
-
-interface FetchPersonsFailureAction {
-  type: 'FETCH_PERSONS_FAILURE'
-}
-
-interface RemovePersonAction {
-  type: 'REMOVE_PERSON'
-  payload: {
-    uuid: string
-  }
-}
-
-interface AddPersonAction {
-  type: 'ADD_PERSON'
-  payload: {
-    firstName: string
-    lastName: string
-  }
-}
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case 'FETCH_PERSONS':
-      return produce(state, (draftState) => {
-        draftState.isLoading = true
-      })
-
-    case 'FETCH_PERSONS_SUCCESS':
-      return produce(state, (draftState) => {
-        draftState.persons = action.payload.response.data.persons.map((person) => ({
-          uuid: person.uuid,
-          firstName: person.firstName,
-          lastName: person.lastName,
-          age: person.age
-        }))
-        draftState.isLoading = false
-        draftState.isError = false
-      })
-
-    case 'FETCH_PERSONS_FAILURE':
-      return produce(state, (draftState) => {
-        draftState.isLoading = false
-        draftState.isError = true
-      })
-
-    case 'REMOVE_PERSON':
-      return produce(state, (draftState) => {
-        draftState.persons = state.persons.filter((person) => person.uuid !== action.payload.uuid)
-      })
-
-    case 'ADD_PERSON':
-      return produce(state, (draftState) => {
-        draftState.persons.push({
-          uuid: uuidv4(),
-          firstName: action.payload.firstName,
-          lastName: action.payload.lastName,
-          age: 40
-        })
-      })
-
-    default:
-      return state
-  }
-}
+import { getPersons } from './services/personService'
+import { useSelector } from './ducks'
 
 interface Props {
   isDark: boolean
@@ -115,8 +12,8 @@ interface Props {
 }
 
 export function App({ isDark, onToggleDark }: Props) {
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const { persons, isLoading, isError } = state
+  const dispatch = useDispatch()
+  const { persons, isLoading, isError } = useSelector((state) => state.person)
 
   useEffect(() => {
     async function fetchData() {
@@ -135,7 +32,7 @@ export function App({ isDark, onToggleDark }: Props) {
     }
 
     fetchData()
-  }, [])
+  }, [dispatch])
 
   const handleRemovePerson = (uuid: string) => {
     dispatch({ type: 'REMOVE_PERSON', payload: { uuid } })
