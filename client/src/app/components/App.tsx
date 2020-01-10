@@ -1,116 +1,66 @@
-import React, { useEffect, useState } from 'react'
-import { Global } from '@emotion/core'
-import uuidv4 from 'uuid/v4'
-import { ThemeProvider } from 'emotion-theming'
+import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { getPersons } from '../services/personService'
-import image from '../assets/social_media_recruitment.png'
-import { PersonList } from './PersonList'
-import { AddPersonForm } from './AddPersonForm'
-
-interface PersonType {
-  uuid: string
-  firstName: string
-  lastName: string
-  age: number
-}
-
-const theme = {
-  spacing: {
-    medium: 8
-  }
-}
+import { IndexPage, PersonPage, NotFoundPage } from '../pages'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../ducks'
 
 export function App() {
-  const [persons, setPersons] = useState<Array<PersonType>>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
+  const dispatch = useDispatch()
+  const state = useSelector(state => state.person)
+  const { persons, isLoading, isError } = state
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true)
+    dispatch({ type: 'FETCH_PERSONS' })
+  }, [dispatch])
 
-      const response = await getPersons()
-
-      if (response.success) {
-        setPersons(response.value.data.persons)
-
-        setIsError(false)
-      } else {
-        setIsError(true)
-      }
-
-      setIsLoading(false)
-    }
-
-    fetchData()
-  }, [])
-
-  const handleRemove = (uuid: string) => {
-    setPersons(persons.filter(person => person.uuid !== uuid))
+  const handleRemovePerson = (uuid: string) => {
+    dispatch({ type: 'REMOVE_PERSON', payload: { uuid } })
   }
 
   const handleAddPerson = (firstName: string, lastName: string) => {
-    setPersons(
-      persons.concat({
-        firstName,
-        lastName,
-        age: 35,
-        uuid: uuidv4()
-      })
-    )
+    dispatch({ type: 'ADD_PERSON', payload: { firstName, lastName } })
   }
-
-  const hireablePersons = persons.filter(isHireable)
-  const notHireablePersons = persons.filter(person => !isHireable(person))
 
   return (
     <>
-      <Global
-        styles={{
-          body: {
-            backgroundImage: `url(${image})`
-          }
-        }}
-      />
+      {isLoading && <div>Loading...</div>}
 
-      <ThemeProvider theme={theme}>
-        <div>
-          <header>
-            <h1>Nyt koodataan!</h1>
+      {isError && <div>Hups! Jotain meni vikaan.</div>}
 
-            <h2>Tässä lista ihmisistä:</h2>
-          </header>
+      {!isError && !isLoading && (
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <IndexPage
+                persons={persons}
+                onAddPerson={handleAddPerson}
+                onRemovePerson={handleRemovePerson}
+              />
+            </Route>
 
-          <h3>Lisää henkilö</h3>
+            <Route path="/person/:uuid">
+              {props => {
+                const { match } = props
 
-          <AddPersonForm onAddPerson={handleAddPerson} />
+                if (match?.params.uuid) {
+                  const person = persons.find(person => person.uuid === match.params.uuid)
 
-          {isLoading && <div>Loading...</div>}
+                  if (person) {
+                    return <PersonPage person={person} />
+                  }
+                }
 
-          {isError && <div>Hups! Jotain meni vikaan.</div>}
+                return <NotFoundPage />
+              }}
+            </Route>
 
-          {!isError && !isLoading && (
-            <>
-              <h3>Ehkä palkataan?</h3>
-
-              <PersonList persons={hireablePersons} showStats onRemove={handleRemove} />
-
-              <h3>No ei ainakaan palkata</h3>
-
-              <PersonList persons={notHireablePersons} onRemove={handleRemove} />
-            </>
-          )}
-        </div>
-      </ThemeProvider>
+            <Route>
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </Router>
+      )}
     </>
   )
-}
-
-interface IsHireablePerson {
-  age: number
-}
-
-function isHireable(person: IsHireablePerson) {
-  return person.age > 16
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Field, Form } from 'react-final-form'
 
-import { Button } from './Button'
-import { Input } from './Input'
+import { Button } from '../layout/form/input/Button'
+import { Input } from '../layout/form/input/Input'
 
 interface Props {
   onAddPerson: (firstName: string, lastName: string) => void

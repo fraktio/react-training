@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { lighten } from 'polished'
+import { Link } from 'react-router-dom'
 
-import { Button } from './Button'
+import { Button } from '../layout/form/input/Button'
 
 interface Props {
   person: PersonType
@@ -28,7 +29,8 @@ export function Person({ person, onRemove }: Props) {
       }}
     >
       <p>
-        id: {person.uuid}, name: {person.firstName} {person.lastName}, ikä: {person.age.toFixed(1)}
+        id: <Link to={`/person/${person.uuid}`}>{person.uuid}</Link>, name: {person.firstName}{' '}
+        {person.lastName}, ikä: {person.age.toFixed(1)}
       </p>
 
       <Button onClick={onRemove}>Poista listasta</Button>

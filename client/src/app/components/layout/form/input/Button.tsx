@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import { styled } from '../../../../theme/styled'
 
 export const Button = styled.button(
   props => ({
