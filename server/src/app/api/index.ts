@@ -1,6 +1,7 @@
 import { Router } from 'express'
 
 import { generatePersons, removePerson, addPerson } from '../services/personService'
+import { delay } from '../util/delay'
 
 export function createApi(): Router {
   const router = Router()
@@ -32,13 +33,19 @@ export function createApi(): Router {
     }
   })
 
-  router.delete('/persons/:uuid', (req, res) => {
+  router.delete('/persons/:uuid', async (req, res) => {
+    // Artificial delay
+    await delay(1000)
+
     persons = removePerson(persons, req.params.uuid)
 
     res.json({})
   })
 
   router.post('/persons', async (req, res) => {
+    // Artificial delay
+    await delay(1000)
+
     const { firstName, lastName } = req.body
 
     persons = addPerson(persons, firstName, lastName)
