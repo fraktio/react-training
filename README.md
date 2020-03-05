@@ -7,6 +7,52 @@ Welcome to this two-day React training! It is very important that you **read and
 ## Human requirements
 
 - You are a developer, devsigner or such with working professional knowledge on JavaScript, HTML and CSS. You don't have to be a guru, but the training is not suitable for total beginners.
+- Learn the ES6 syntax (see below) beforehand so you don't have to spend time learning it in the training.
+- We are going to show code examples and use [TypeScript](http://www.typescriptlang.org/) in our training so it will help you immensely to know the basics. However, you don't have to write TypeScript if you don't want to.
+
+### ES6 syntax
+
+We are going to use the "new" ES6 syntax to write our JavaScript. Features / syntax you will definitely need to know are:
+
+- Block scoped variables: `let` and `const`
+
+```js
+const foo = 'bar'
+let quux = 123
+```
+
+- Modules and their `import` and `export` syntax
+
+```js
+import React, { useState } from 'react'
+
+export function App() {
+  ...
+}
+```
+
+- Arrow function syntax
+
+```js
+const getStuff = (id) => {  ... }
+```
+
+- Array / object destructing
+
+```js
+const { persons } = props
+const [person1, person2] = persons
+```
+
+- `Promise`s and `async` / `await` syntax
+
+```js
+async function getStuff() {
+  ...
+}
+
+const stuff = await getStuff()
+```
 
 ## Computer requirements
 
