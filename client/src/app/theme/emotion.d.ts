@@ -11,5 +11,6 @@ declare module '@emotion/react' {
         medium: number
       }
     }
+    isDark: boolean
   }
 }
