@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import { lighten } from 'polished'
+import styled from '@emotion/styled'
 
 interface Props {
   person: {
@@ -13,14 +13,7 @@ interface Props {
 
 export function Person({ person }: Props) {
   return (
-    <div
-      css={{
-        border: '2px solid black',
-        backgroundColor: lighten(0.4, 'magenta'),
-        padding: 16,
-        marginTop: 16
-      }}
-    >
+    <Container>
       <ul>
         <li>id: {person.uuid}</li>
         <li>
@@ -28,6 +21,14 @@ export function Person({ person }: Props) {
         </li>
         <li>age: {person.age}</li>
       </ul>
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div({
+  border: '2px solid black',
+  backgroundColor: lighten(0.4, 'magenta'),
+  color: 'black',
+  padding: 16,
+  marginTop: 16
+})
