@@ -1,6 +1,7 @@
 import React from 'react'
 import { lighten } from 'polished'
-import styled from '@emotion/styled'
+
+import { styled } from '../theme/styled'
 
 interface Props {
   person: {
@@ -25,10 +26,11 @@ export function Person({ person }: Props) {
   )
 }
 
-const Container = styled.div({
+const Container = styled.div((props) => ({
   border: '2px solid black',
+  borderRadius: props.theme.border.radius.medium,
   backgroundColor: lighten(0.4, 'magenta'),
   color: 'black',
-  padding: 16,
-  marginTop: 16
-})
+  padding: props.theme.spacing.small,
+  marginTop: props.theme.spacing.medium
+}))
