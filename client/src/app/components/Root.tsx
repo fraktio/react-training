@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Global } from '@emotion/core'
 import { ThemeProvider } from 'emotion-theming'
 
@@ -7,17 +7,23 @@ import image from '../assets/social_media_recruitment.png'
 import { theme } from '../theme/theme'
 
 export function Root() {
+  const [isDark, setIsDark] = useState(false)
+
+  const handleToggleDark = () => {
+    setIsDark(!isDark)
+  }
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{ ...theme, isDark }}>
       <Global
-        styles={{
+        styles={(props) => ({
           body: {
-            background: `url(${image})`
+            background: props.isDark ? '#666' : `url(${image})`
           }
-        }}
+        })}
       />
 
-      <App />
+      <App isDark={isDark} onToggleDark={handleToggleDark} />
     </ThemeProvider>
   )
 }

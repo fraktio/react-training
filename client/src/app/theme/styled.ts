@@ -1,6 +1,7 @@
 import emotionStyled, { CreateStyled } from '@emotion/styled'
 
-type Theme = {
+export type Theme = {
+  isDark: boolean
   spacing: {
     small: number
     medium: number
