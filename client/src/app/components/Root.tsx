@@ -1,5 +1,5 @@
 import { Global, ThemeProvider } from '@emotion/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import image from '../assets/social_media_recruitment.png'
 import { theme } from '../theme/theme'
@@ -8,6 +8,10 @@ import { App } from './App'
 
 export function Root() {
   const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    document.title = isDark ? `It's dark!` : `It's light!`
+  }, [isDark])
 
   const handleToggleDark = () => {
     setIsDark(!isDark)
