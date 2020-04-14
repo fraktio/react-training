@@ -44,7 +44,7 @@ export function generatePersons(amount: number): Person[] {
 }
 
 export function removePerson(persons: Array<Person>, uuid: string): Array<Person> {
-  return persons.filter(person => person.uuid !== uuid)
+  return persons.filter((person) => person.uuid !== uuid)
 }
 
 export function addPerson(

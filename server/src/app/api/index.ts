@@ -20,7 +20,7 @@ export function createApi(): Router {
   })
 
   router.get('/persons/:uuid', (req, res) => {
-    const person = persons.find(person => person.uuid === req.params.uuid)
+    const person = persons.find((person) => person.uuid === req.params.uuid)
 
     if (person) {
       res.json({
