@@ -2,7 +2,17 @@
   "extends": "react-app",
   "plugins": ["prettier", "react-hooks"],
   "rules": {
-    "prettier/prettier": "warn",
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2,
+        "printWidth": 100,
+        "semi": false,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "endOfLine": "lf"
+      }
+    ],
     "import/no-default-export": 2,
     "import/no-duplicates": 2,
     "import/newline-after-import": 2,
