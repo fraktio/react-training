@@ -3,17 +3,18 @@ import { jsx } from '@emotion/core'
 import { styled } from '../theme/styled'
 
 interface Props {
-  person: Person
+  person: PersonType
+  onRemove: () => void
 }
 
-interface Person {
+export interface PersonType {
   uuid: string
   firstName: string
   lastName: string
   age: number
 }
 
-export function Person({ person }: Props) {
+export function Person({ person, onRemove }: Props) {
   return (
     <Container>
       ID: {person.uuid}
@@ -21,6 +22,9 @@ export function Person({ person }: Props) {
         Name: {person.firstName} {person.lastName}
       </Name>
       Age: {person.age}
+      <p>
+        <button onClick={onRemove}>Remove</button>
+      </p>
     </Container>
   )
 }
