@@ -33,7 +33,7 @@ export function generatePersons(amount: number): Person[] {
         }
 
     return {
-      uuid: faker.random.uuid(),
+      uuid: faker.datatype.uuid(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: probability(25) ? null : faker.internet.email(),
