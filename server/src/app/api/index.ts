@@ -8,7 +8,10 @@ export function createApi(): Router {
 
   let persons = generatePersons(100)
 
-  router.get('/persons', (_, res) => {
+  router.get('/persons', async (_, res) => {
+    // Artificial delay
+    await delay(1000)
+
     res.json({
       data: {
         persons
@@ -19,7 +22,10 @@ export function createApi(): Router {
     })
   })
 
-  router.get('/persons/:uuid', (req, res) => {
+  router.get('/persons/:uuid', async (req, res) => {
+    // Artificial delay
+    await delay(1000)
+
     const person = persons.find((person) => person.uuid === req.params.uuid)
 
     if (person) {
