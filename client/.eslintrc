@@ -1,6 +1,6 @@
 {
   "extends": "react-app",
-  "plugins": ["prettier", "react-hooks"],
+  "plugins": ["prettier", "react-hooks", "@emotion"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -17,7 +17,27 @@
     "import/no-duplicates": 2,
     "import/newline-after-import": 2,
     "import/no-cycle": 2,
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          "parent",
+          ["sibling", "index"]
+        ],
+        "newlines-between": "always"
+      }
+    ],
     "react-hooks/rules-of-hooks": 2,
-    "react-hooks/exhaustive-deps": 2
+    "react-hooks/exhaustive-deps": 2,
+    "@emotion/pkg-renaming": "error",
+    "@emotion/jsx-import": "error",
+    "@emotion/no-vanilla": "error",
+    "@emotion/import-from-emotion": "error",
+    "@emotion/styled-import": "error"
   }
 }
