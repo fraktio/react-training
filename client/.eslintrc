@@ -35,7 +35,6 @@
     "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": 2,
     "@emotion/pkg-renaming": "error",
-    "@emotion/jsx-import": "error",
     "@emotion/no-vanilla": "error",
     "@emotion/import-from-emotion": "error",
     "@emotion/styled-import": "error"
