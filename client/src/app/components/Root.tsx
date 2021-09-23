@@ -1,14 +1,24 @@
 import { ThemeProvider } from '@emotion/react'
 import { useState, useEffect } from 'react'
+import { Provider } from 'react-redux'
 
+import { store } from '../../setup/redux'
 import { getTheme } from '../theme/theme'
 
 import { App } from './App'
+import { ModeContext, useDarkMode } from './ModeContext'
 
 const CUSTOMER = 2
 
 export function Root() {
-  const { isDark, onToggleDark } = useDarkMode()
+  return (
+    <ModeContext>
+      <AppRoot />
+    </ModeContext>
+  )
+}
+
+function AppRoot() {
   const theme = useCustomTheme()
 
   const [count, setCount] = useState(1)
@@ -24,28 +34,18 @@ export function Root() {
   }, [count])
 
   return (
-    <ThemeProvider theme={theme}>
-      <p>Count: {count}</p>
-      <App isDark={isDark} onToggleDark={onToggleDark} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <p>Count: {count}</p>
+
+        <App />
+      </ThemeProvider>
+    </Provider>
   )
 }
 
-function useDarkMode() {
-  const [isDark, setIsDark] = useState(false)
-
-  const handleToggleDark = () => {
-    setIsDark(!isDark)
-  }
-
-  return {
-    isDark,
-    onToggleDark: handleToggleDark
-  }
-}
-
 function useCustomTheme() {
-  const { isDark } = useDarkMode()
+  const isDark = useDarkMode()
 
   return getTheme(CUSTOMER, isDark)
 }

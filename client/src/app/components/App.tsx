@@ -1,50 +1,33 @@
 import { Global } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import backgroundImage from '../assets/social_media_recruitment.png'
+import { useSelector } from '../ducks'
 import { getPersons } from '../personService'
 
-import {
-  PersonListItem,
-  Person as PersonListItemPerson
-} from './PersonListItem'
+import { AddPersonForm, Data } from './AddPersonForm'
+import { useDarkMode, useToggleDarkMode } from './ModeContext'
+import { PersonList } from './PersonList'
 
-type Props = {
-  isDark: boolean
-  onToggleDark: () => void
-}
+export function App() {
+  const isDark = useDarkMode()
+  const onToggleDark = useToggleDarkMode()
+  const { persons, isLoading, isError, onRemovePerson, onAddPerson } =
+    usePersonsQuery()
 
-type Person = {
-  uuid: string
-} & PersonListItemPerson
+  const hireable = (person: { age: number }) => person.age > 18
 
-export function App({ isDark, onToggleDark }: Props) {
-  const [persons, setPersons] = useState<Person[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
+  const hireablePersons = persons.filter(hireable)
+  const nonHireablePersons = persons.filter((person) => !hireable(person))
 
   useEffect(() => {
     document.title = isDark ? 'Dark mode' : 'Light mode'
   }, [isDark])
 
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true)
-
-      try {
-        const response = await getPersons()
-
-        setPersons(response.data.persons)
-        setIsError(false)
-      } catch (e) {
-        setIsError(true)
-      }
-
-      setIsLoading(false)
-    }
-
-    fetchData()
-  }, [])
+  const handleSubmit = (data: Data) => {
+    onAddPerson(data.firstName, data.lastName)
+  }
 
   return (
     <>
@@ -63,20 +46,71 @@ export function App({ isDark, onToggleDark }: Props) {
           {isDark ? <>Set light</> : <>Set dark</>}
         </button>
 
+        <AddPersonForm onSubmit={handleSubmit} />
+
         {isLoading && <div>Loading...</div>}
 
         {isError && <div>Oops. Something went wrong!</div>}
 
-        {persons.length > 0 && (
-          <ul>
-            {persons.map((person) => (
-              <li key={person.uuid}>
-                <PersonListItem person={person} />
-              </li>
-            ))}
-          </ul>
+        {!isLoading && (
+          <>
+            <PersonList
+              title="Maybe hireable persons"
+              persons={hireablePersons}
+              showStats
+              onRemovePerson={onRemovePerson}
+            />
+
+            <PersonList
+              title="Not gonna hire persons"
+              persons={nonHireablePersons}
+              onRemovePerson={onRemovePerson}
+            />
+          </>
         )}
       </div>
     </>
   )
+}
+
+function usePersonsQuery() {
+  const state = useSelector((state) => state.person)
+
+  const { persons, isLoading, isError } = state
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    async function fetchData() {
+      dispatch({ type: 'FETCH_PERSONS' })
+
+      try {
+        const response = await getPersons()
+
+        dispatch({
+          type: 'FETCH_PERSONS_SUCCESS',
+          payload: { persons: response.data.persons }
+        })
+      } catch (e) {
+        dispatch({ type: 'FETCH_PERSONS_FAILURE' })
+      }
+    }
+
+    fetchData()
+  }, [dispatch])
+
+  const handleRemovePerson = (personUuid: string) => {
+    dispatch({ type: 'REMOVE_PERSON', payload: { personUuid } })
+  }
+
+  const handleAddPerson = (firstName: string, lastName: string) => {
+    dispatch({ type: 'ADD_PERSON', payload: { firstName, lastName } })
+  }
+
+  return {
+    persons,
+    isLoading,
+    isError,
+    onRemovePerson: handleRemovePerson,
+    onAddPerson: handleAddPerson
+  }
 }

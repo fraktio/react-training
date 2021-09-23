@@ -3,6 +3,7 @@ import { lighten } from 'polished'
 
 type Props = {
   person: Person
+  onRemovePerson: () => void
 }
 
 export type Person = {
@@ -11,7 +12,7 @@ export type Person = {
   age: number
 }
 
-export function PersonListItem({ person }: Props) {
+export function PersonListItem({ person, onRemovePerson }: Props) {
   return (
     <Container>
       <Title>
@@ -19,6 +20,8 @@ export function PersonListItem({ person }: Props) {
       </Title>
 
       <Age>{person.age}</Age>
+
+      <button onClick={onRemovePerson}>Remove</button>
     </Container>
   )
 }
