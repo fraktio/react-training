@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom'
 
-import { Root } from './app/components/Root'
+import { Providers as Root } from './app/components/Root'
 
 ReactDOM.render(<Root />, document.getElementById('root'))
