@@ -6,7 +6,7 @@
       "error",
       {
         "tabWidth": 2,
-        "printWidth": 100,
+        "printWidth": 80,
         "semi": false,
         "singleQuote": true,
         "trailingComma": "none",
@@ -34,6 +34,7 @@
     ],
     "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": 2,
+    "@typescript-eslint/explicit-module-boundary-types": "error",
     "@emotion/pkg-renaming": "error",
     "@emotion/no-vanilla": "error",
     "@emotion/import-from-emotion": "error",

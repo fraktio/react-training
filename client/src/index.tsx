@@ -1,5 +1,8 @@
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 
-import { Root } from './app/components/Root'
+import { Root } from './app/Root'
 
-ReactDOM.render(<Root />, document.getElementById('root'))
+const container = document.getElementById('root')!
+const root = ReactDOM.createRoot(container)
+
+root.render(<Root />)
