@@ -10,7 +10,7 @@ export function createApp(): Application {
       allowedHeaders: ['Authorization', 'Content-Type', 'Credentials'],
       credentials: true,
       exposedHeaders: ['Content-Disposition'],
-      origin: 'http://localhost:3000'
+      origin: '*'
     })
   )
 

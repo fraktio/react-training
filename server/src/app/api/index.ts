@@ -1,32 +1,29 @@
 import { Router } from 'express'
 
-import { generatePersons, removePerson, addPerson } from '../services/personService'
+import { generatePeople, removePerson, addPerson, Person } from '../services/personService'
 import { delay } from '../util/delay'
 
 export function createApi(): Router {
   const router = Router()
 
-  let persons = generatePersons(100)
+  let people: Person[] = generatePeople(1_000)
 
-  router.get('/persons', async (_, res) => {
+  router.get('/people', async (_, res) => {
     // Artificial delay
     await delay(1000)
 
     res.json({
       data: {
-        persons
+        people
       },
       meta: {
-        personsCount: persons.length
+        count: people.length
       }
     })
   })
 
-  router.get('/persons/:uuid', async (req, res) => {
-    // Artificial delay
-    await delay(1000)
-
-    const person = persons.find((person) => person.uuid === req.params.uuid)
+  router.get('/people/:uuid', async (req, res) => {
+    const person = people.find((person) => person.uuid === req.params.uuid)
 
     if (person) {
       res.json({
@@ -39,24 +36,61 @@ export function createApi(): Router {
     }
   })
 
-  router.delete('/persons/:uuid', async (req, res) => {
+  router.delete('/people/:uuid', async (req, res) => {
     // Artificial delay
     await delay(1000)
 
-    persons = removePerson(persons, req.params.uuid)
+    people = removePerson(people, req.params.uuid)
 
     res.json({})
   })
 
-  router.post('/persons', async (req, res) => {
+  router.post('/people', async (req, res) => {
     // Artificial delay
     await delay(1000)
 
     const { firstName, lastName } = req.body
 
-    persons = addPerson(persons, firstName, lastName)
+    people = addPerson(people, firstName, lastName)
 
     res.json({})
+  })
+
+  router.get('/people/:uuid/related', async (req, res) => {
+    const person = people.find((person) => person.uuid === req.params.uuid)
+
+    if (person) {
+      const related = people.filter(
+        (p) => p.experience === person.experience && p.uuid !== person.uuid
+      )
+
+      res.json({
+        data: {
+          related
+        },
+        meta: {
+          count: related.length
+        }
+      })
+    } else {
+      res.status(404).json({})
+    }
+  })
+
+  router.post('/people/:uuid/toggle-star', async (req, res) => {
+    const person = people.find((person) => person.uuid === req.params.uuid)
+
+    if (person) {
+      person.isStarred = !person.isStarred
+
+      res.json({
+        data: {
+          person
+        }
+      })
+    } else {
+      res.status(404).json({})
+    }
   })
 
   return router

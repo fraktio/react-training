@@ -1,63 +1,61 @@
 import faker from 'faker'
 import { v4 as uuidv4 } from 'uuid'
 
-interface Person
-  extends Readonly<{
-    uuid: string
-    firstName: string
-    lastName: string
-    email: string | null
-    age: number
-    address: Address | null
-  }> {}
+import { probability } from '../util/probability'
 
-interface Address
-  extends Readonly<{
-    streetAddress: string
-    city: string
-  }> {}
-
-function probability(percentage: number): boolean {
-  return Math.random() * 100 < percentage
+export type Person = {
+  uuid: string
+  firstName: string
+  lastName: string
+  experience: number
+  email: string | null
+  avatar: string | null
+  description: string | null
+  isStarred: boolean
 }
 
-export function generatePersons(amount: number): Person[] {
+export function generatePeople(amount: number): Person[] {
   return [...Array(amount)].map(() => {
-    const age = Math.random() * 100
-
-    const address = probability(40)
-      ? null
-      : {
-          streetAddress: faker.address.streetAddress(),
-          city: faker.address.city()
-        }
+    const firstName = faker.name.firstName()
+    const lastName = faker.name.lastName()
+    const experience = faker.datatype.number(25)
 
     return {
       uuid: faker.datatype.uuid(),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: probability(25) ? null : faker.internet.email(),
-      age: probability(50) ? age : parseInt(age.toString(), 10),
-      address
+      firstName,
+      lastName,
+      experience,
+      email: probability(25) ? null : faker.internet.email(firstName, lastName).toLowerCase(),
+      avatar: probability(25) ? null : getAvatar(firstName, lastName),
+      description: probability(20) ? null : faker.lorem.paragraphs(3, '\n\n'),
+      isStarred: false
     }
   })
 }
 
-export function removePerson(persons: Array<Person>, uuid: string): Array<Person> {
-  return persons.filter((person) => person.uuid !== uuid)
+export function removePerson(people: Array<Person>, uuid: string): Array<Person> {
+  return people.filter((person) => person.uuid !== uuid)
 }
 
 export function addPerson(
-  persons: Array<Person>,
+  people: Array<Person>,
   firstName: string,
   lastName: string
 ): Array<Person> {
-  return persons.concat({
+  return people.concat({
     uuid: uuidv4(),
     firstName,
     lastName,
     email: 'email@example.com',
-    age: 40,
-    address: null
+    experience: 10,
+    avatar: getAvatar(firstName, lastName),
+    description: null,
+    isStarred: false
   })
+}
+
+function getAvatar(firstName: string, lastName: string): string {
+  return `https://source.boringavatars.com/beam/64/${encodeURIComponent(
+    `${firstName} ${lastName}`
+  )}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`
 }
