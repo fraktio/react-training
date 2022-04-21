@@ -33,7 +33,7 @@ export async function getPeople(): Promise<Result<GetPeopleResponse>> {
   })
 }
 
-type GetPersonResponse = {
+export type GetPersonResponse = {
   data: {
     person: Person
   }

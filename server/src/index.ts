@@ -3,7 +3,7 @@ import { createApi } from './app/api'
 
 const app = createApp()
 
-const host = '10.10.0.183'
+const host = 'localhost'
 const port = 8889
 
 app.use('/', createApi())

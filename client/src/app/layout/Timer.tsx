@@ -1,18 +1,13 @@
 import styled from '@emotion/styled'
-import { useEffect, useState } from 'react'
 
-export function Timer(): JSX.Element {
-  const [count, setCount] = useState(0)
+type Props = {
+  time: number
+}
 
-  useEffect(() => {
-    const id = setInterval(() => setCount((c) => c + 1), 1000)
-
-    return () => clearInterval(id)
-  }, [])
-
+export function Timer({ time }: Props): JSX.Element {
   return (
     <Container>
-      {Math.floor(count / 60)}:{(count % 60).toString().padStart(2, '0')}
+      {Math.floor(time / 60)}:{(time % 60).toString().padStart(2, '0')}
     </Container>
   )
 }

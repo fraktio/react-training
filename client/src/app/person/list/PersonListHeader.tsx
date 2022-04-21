@@ -11,7 +11,7 @@ export function PersonListHeader({ title, description }: Props): JSX.Element {
     <ListHeader>
       <ListTitle>{title}</ListTitle>
 
-      {description && <TextDimmed>{description}</TextDimmed>}
+      {description && <Description>{description}</Description>}
     </ListHeader>
   )
 }
@@ -31,7 +31,7 @@ const ListTitle = styled.h2(({ theme }) => ({
   lineHeight: '1em'
 }))
 
-const TextDimmed = styled.p(({ theme }) => ({
+const Description = styled.p(({ theme }) => ({
   fontWeight: 400,
   color: theme.colors.textDimmed
 }))

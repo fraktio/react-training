@@ -5,8 +5,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 
 import { App } from './App'
-import { DarkModeContext, useDarkModeValue } from './DarkModeContext'
-import { lightTheme, darkTheme } from './theme/theme'
+import { DarkModeContext } from './DarkModeContext'
+import { lightTheme } from './theme/theme'
 
 const queryClient = new QueryClient()
 
@@ -27,7 +27,7 @@ export function Root(): JSX.Element {
 }
 
 function RootWithContext() {
-  const theme = useTheme()
+  const theme = lightTheme
 
   return (
     <ThemeProvider theme={theme}>
@@ -55,10 +55,4 @@ function RootWithContext() {
       <App />
     </ThemeProvider>
   )
-}
-
-function useTheme() {
-  const isDark = useDarkModeValue()
-
-  return isDark ? darkTheme : lightTheme
 }

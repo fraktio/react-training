@@ -1,92 +1,34 @@
-import styled from '@emotion/styled'
-import { useCallback, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { FormProvider, useForm, UseFormReturn } from 'react-hook-form'
 
-import { FieldGroup, Label } from './styles'
-
-type Props = {
-  initialValues: InitialValues
-  onSubmit: (data: SubmitData) => void
-}
-
-type InitialValues = {
-  experience: number
-  name: string
-}
-
-export type SubmitData = {
-  experience: number
-  name: string
-}
-
-type Data = {
+export type Data = {
   experience?: string
   name?: string
 }
 
-export function FiltersForm({ initialValues, onSubmit }: Props): JSX.Element {
-  const { handleSubmit, register, watch } = useForm<Data>({
-    defaultValues: {
-      experience: initialValues.experience.toString(),
-      name: initialValues.name
-    }
-  })
+export function FiltersForm(): JSX.Element {
+  const form = useForm<Data>()
 
-  const handleActualSubmit = useCallback(
-    (data: Data) => {
-      onSubmit({
-        experience: data.experience ? parseInt(data.experience, 10) : 0,
-        name: data.name ?? ''
-      })
-    },
-    [onSubmit]
-  )
+  const handleSubmit = (data: Data) => {
+    console.log(data)
+  }
 
-  useEffect(() => {
-    const subscription = watch((data) => handleActualSubmit(data))
-
-    return () => subscription.unsubscribe()
-  }, [watch, onSubmit, handleActualSubmit])
-
-  const experience = watch('experience')
+  useSubmitOnChange(form, handleSubmit)
 
   return (
-    <form onSubmit={handleSubmit(handleActualSubmit)}>
-      <FieldGroup>
-        <Label htmlFor="experience">Experience</Label>
-
-        <RangeField
-          type="range"
-          min={0}
-          max={25}
-          id="experience"
-          {...register('experience')}
-        />
-
-        {experience}
-      </FieldGroup>
-
-      <FieldGroup>
-        <Label htmlFor="name">Name</Label>
-
-        <TextField type="text" id="name" {...register('name')} />
-      </FieldGroup>
-    </form>
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>{/* fields */}</form>
+    </FormProvider>
   )
 }
 
-const RangeField = styled.input({
-  width: 200
-})
+function useSubmitOnChange(
+  form: UseFormReturn<Data>,
+  onSubmit: (data: Data) => void
+) {
+  useEffect(() => {
+    const subscription = form.watch((data) => onSubmit(data))
 
-const TextField = styled.input(({ theme }) => ({
-  width: 200,
-  fontFamily: theme.fontFamilies.sans,
-  backgroundColor: theme.colors.textfieldBackground,
-  color: theme.colors.formText,
-  borderRadius: 4,
-  border: theme.borders.buttonBorder,
-  padding: theme.spacing(1),
-  fontSize: '1rem',
-  fontWeight: 400
-}))
+    return () => subscription.unsubscribe()
+  }, [form, onSubmit])
+}
