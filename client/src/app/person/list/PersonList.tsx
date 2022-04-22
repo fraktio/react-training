@@ -1,7 +1,3 @@
-import styled from '@emotion/styled'
-
 export function PersonList(): JSX.Element {
-  return <Container></Container>
+  return <></>
 }
-
-const Container = styled.div({})
