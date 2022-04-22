@@ -1,3 +1,5 @@
+import styled from '@emotion/styled'
+
 import { PersonCard, Person as PersonCardPerson } from '../card/PersonCard'
 
 import { PersonListHeader } from './PersonListHeader'
@@ -18,13 +20,25 @@ export function PersonList({ people }: Props): JSX.Element {
         description={<>Showing {people.length} people</>}
       />
 
-      <ul>
+      <ListContainer>
         {people.map((person) => (
-          <li key={person.uuid}>
+          <ListItem key={person.uuid}>
             <PersonCard person={person} />
-          </li>
+          </ListItem>
         ))}
-      </ul>
+      </ListContainer>
     </div>
   )
 }
+
+const ListContainer = styled.ul({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+  margin: 0,
+  padding: 0,
+  gap: 16
+})
+
+const ListItem = styled.li({
+  listStyle: 'none'
+})
