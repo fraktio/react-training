@@ -1,5 +1,6 @@
 import { Header } from './layout/Header'
 import { people } from './people'
+import { PersonCard } from './person/card/PersonCard'
 
 export function App(): JSX.Element {
   return (
@@ -11,13 +12,7 @@ export function App(): JSX.Element {
       <ul>
         {people.map((person) => (
           <li key={person.uuid}>
-            <p>
-              {person.firstName} {person.lastName}
-            </p>
-
-            <p>Experience: {person.experience}</p>
-
-            {person.email && <p>Email: {person.email}</p>}
+            <PersonCard person={person} />
           </li>
         ))}
       </ul>
