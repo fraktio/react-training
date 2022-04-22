@@ -31,13 +31,13 @@ export function PersonList({ people }: Props): JSX.Element {
   )
 }
 
-const ListContainer = styled.ul({
+const ListContainer = styled.ul(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
   margin: 0,
   padding: 0,
-  gap: 16
-})
+  gap: theme.spacing(2)
+}))
 
 const ListItem = styled.li({
   listStyle: 'none'
