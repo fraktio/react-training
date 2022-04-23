@@ -1,13 +1,16 @@
+import { useDarkMode } from '../DarkModeContext'
+
 import { Button } from './Button'
 
-type Props = {
-  isDarkMode: boolean
-  onToggleDarkMode: () => void
-}
+export function DarkMode(): JSX.Element {
+  const { isDarkMode, setIsDarkMode } = useDarkMode()
 
-export function DarkMode({ isDarkMode, onToggleDarkMode }: Props): JSX.Element {
+  const handleToggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+  }
+
   return (
-    <Button onClick={onToggleDarkMode}>
+    <Button onClick={handleToggleDarkMode}>
       {isDarkMode ? <>Light</> : <>Dark</>}
     </Button>
   )

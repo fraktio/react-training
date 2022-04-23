@@ -1,11 +1,11 @@
 import { Global, ThemeProvider } from '@emotion/react'
-import { StrictMode, useState } from 'react'
+import { StrictMode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 
 import { App } from './App'
-import { DarkModeContext } from './DarkModeContext'
+import { DarkModeContext, useDarkMode } from './DarkModeContext'
 import { darkTheme, lightTheme } from './theme/theme'
 
 const queryClient = new QueryClient()
@@ -27,7 +27,7 @@ export function Root(): JSX.Element {
 }
 
 function RootWithContext() {
-  const { isDarkMode, onToggleDarkMode } = useDarkMode()
+  const { isDarkMode } = useDarkMode()
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
@@ -52,20 +52,7 @@ function RootWithContext() {
         })}
       />
 
-      <App isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
+      <App />
     </ThemeProvider>
   )
-}
-
-function useDarkMode() {
-  const [isDarkMode, setIsDark] = useState(false)
-
-  const handleToggleDarkMode = () => {
-    setIsDark((isDark) => !isDark)
-  }
-
-  return {
-    isDarkMode,
-    onToggleDarkMode: handleToggleDarkMode
-  }
 }
