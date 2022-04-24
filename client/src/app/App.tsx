@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useReducer, useState, useTransition } from 'react'
 
 import { Header } from './layout/Header'
 import { filterPeople } from './pages/IndexPage/filterPeople'
@@ -37,14 +37,28 @@ export function App(): JSX.Element {
     fetchData()
   }, [])
 
+  const [isPending, startTransition] = useTransition()
+
+  const handleToggleOrder = () => {
+    startTransition(() => {
+      onToggleOrder()
+    })
+  }
+
+  const handleChangeFilters = (experience: number, name: string) => {
+    startTransition(() => {
+      onChangeFilters(experience, name)
+    })
+  }
+
   return (
     <>
       <Header />
 
       <OrderAndFilters
         order={order}
-        onToggleOrder={onToggleOrder}
-        onChangeFilters={onChangeFilters}
+        onToggleOrder={handleToggleOrder}
+        onChangeFilters={handleChangeFilters}
       />
 
       {isLoading && <PersonListSkeleton />}
@@ -54,6 +68,7 @@ export function App(): JSX.Element {
       {!isLoading && !isError && (
         <PersonList
           people={filterPeople(orderPeople(people, order), experience, name)}
+          isUpdating={isPending}
         />
       )}
     </>
