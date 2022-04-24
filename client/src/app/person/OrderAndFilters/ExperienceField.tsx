@@ -9,8 +9,6 @@ export function ExperienceField(): JSX.Element {
 
   const experience = watch('experience')
 
-  console.log({ experience })
-
   return (
     <FieldGroup>
       <Label htmlFor="experience">Experience</Label>
