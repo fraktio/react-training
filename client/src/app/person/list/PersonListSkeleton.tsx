@@ -59,7 +59,7 @@ const PersonCardSkeletonBlock = styled.div<{ width: number }>(
 export function PersonListSkeleton(): JSX.Element {
   return (
     <div>
-      <PersonListHeader title="Potentiful candidates" />
+      <PersonListHeader title="Potential candidates" />
       <PersonListSkeletonContainer>
         <PersonCardSkeleton />
         <PersonCardSkeleton />

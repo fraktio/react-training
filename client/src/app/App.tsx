@@ -1,15 +1,41 @@
-import { useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 
 import { Header } from './layout/Header'
 import { filterPeople } from './pages/IndexPage/filterPeople'
 import { orderPeople } from './pages/orderPeople'
-import { people } from './people'
+import { getPeople, GetPeopleResponse } from './pages/personService'
 import { OrderAndFilters } from './person/OrderAndFilters/OrderAndFilters'
 import { PersonList } from './person/list/PersonList'
+import { PersonListSkeleton } from './person/list/PersonListSkeleton'
+
+type People = GetPeopleResponse['data']['people']
 
 export function App(): JSX.Element {
+  const [people, setPeople] = useState<People>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+
   const { order, experience, name, onToggleOrder, onChangeFilters } =
     useFilters()
+
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true)
+
+      const result = await getPeople()
+
+      if (result.ok) {
+        setPeople(result.value.data.people)
+        setIsError(false)
+      } else {
+        setIsError(true)
+      }
+
+      setIsLoading(false)
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -21,9 +47,15 @@ export function App(): JSX.Element {
         onChangeFilters={onChangeFilters}
       />
 
-      <PersonList
-        people={filterPeople(orderPeople(people, order), experience, name)}
-      />
+      {isLoading && <PersonListSkeleton />}
+
+      {isError && <p>Oops! Things didn't work out!</p>}
+
+      {!isLoading && !isError && (
+        <PersonList
+          people={filterPeople(orderPeople(people, order), experience, name)}
+        />
+      )}
     </>
   )
 }
