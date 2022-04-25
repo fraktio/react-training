@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Link } from 'react-router-dom'
 
 import { PersonCard, Person as PersonCardPerson } from '../card/PersonCard'
 
@@ -27,9 +28,11 @@ export function PersonList({ people, isUpdating }: Props): JSX.Element {
 
       <ListContainer isUpdating={isUpdating}>
         {people.map((person) => (
-          <ListItem key={person.uuid}>
-            <PersonCard person={person} />
-          </ListItem>
+          <Link key={person.uuid} to={`/people/${person.uuid}`}>
+            <ListItem>
+              <PersonCard person={person} />
+            </ListItem>
+          </Link>
         ))}
       </ListContainer>
     </div>

@@ -1,65 +1,39 @@
-import { useReducer, useTransition } from 'react'
-import { useQuery } from 'react-query'
+import { useReducer } from 'react'
+import { Route, Routes } from 'react-router-dom'
 
 import { Header } from './layout/Header'
-import { filterPeople } from './pages/IndexPage/filterPeople'
-import { orderPeople } from './pages/orderPeople'
-import { getPeople } from './pages/personService'
-import { OrderAndFilters } from './person/OrderAndFilters/OrderAndFilters'
-import { PersonList } from './person/list/PersonList'
-import { PersonListSkeleton } from './person/list/PersonListSkeleton'
-import { unwrapResult } from './result'
+import { IndexPage } from './pages/IndexPage/IndexPage'
+import { NotFoundPage } from './pages/NotFoundPage'
+import { PersonPage } from './pages/PersonPage/PersonPage'
 
 export function App(): JSX.Element {
-  const peopleQuery = useGetPeopleQuery()
-
   const { order, experience, name, onToggleOrder, onChangeFilters } =
     useFilters()
-
-  const [isPending, startTransition] = useTransition()
-
-  const handleToggleOrder = () => {
-    startTransition(() => {
-      onToggleOrder()
-    })
-  }
-
-  const handleChangeFilters = (experience: number, name: string) => {
-    startTransition(() => {
-      onChangeFilters(experience, name)
-    })
-  }
 
   return (
     <>
       <Header />
 
-      <OrderAndFilters
-        order={order}
-        onToggleOrder={handleToggleOrder}
-        onChangeFilters={handleChangeFilters}
-      />
-
-      {peopleQuery.isLoading && <PersonListSkeleton />}
-
-      {peopleQuery.isError && <p>Oops! Things didn't work out!</p>}
-
-      {peopleQuery.isSuccess && (
-        <PersonList
-          people={filterPeople(
-            orderPeople(peopleQuery.data.data.people, order),
-            experience,
-            name
-          )}
-          isUpdating={isPending}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <IndexPage
+              order={order}
+              experience={experience}
+              name={name}
+              onToggleOrder={onToggleOrder}
+              onChangeFilters={onChangeFilters}
+            />
+          }
         />
-      )}
+
+        <Route path="/people/:personUuid" element={<PersonPage />} />
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </>
   )
-}
-
-function useGetPeopleQuery() {
-  return useQuery(['people'], async () => unwrapResult(await getPeople()))
 }
 
 type FilterState = {

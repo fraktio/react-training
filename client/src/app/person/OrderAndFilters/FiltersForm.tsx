@@ -6,6 +6,12 @@ import { NameField } from './NameField'
 
 type Props = {
   onSubmit: (experience: number, name: string) => void
+  initialValues: InitialValues
+}
+
+export type InitialValues = {
+  experience: number
+  name: string
 }
 
 export type Data = {
@@ -13,8 +19,13 @@ export type Data = {
   name?: string
 }
 
-export function FiltersForm({ onSubmit }: Props): JSX.Element {
-  const form = useForm<Data>()
+export function FiltersForm({ initialValues, onSubmit }: Props): JSX.Element {
+  const form = useForm<Data>({
+    defaultValues: {
+      experience: initialValues.experience.toString(),
+      name: initialValues.name
+    }
+  })
 
   const handleSubmit = (data: Data) => {
     onSubmit(
