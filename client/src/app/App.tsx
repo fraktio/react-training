@@ -1,41 +1,20 @@
-import { useEffect, useReducer, useState, useTransition } from 'react'
+import { useReducer, useTransition } from 'react'
+import { useQuery } from 'react-query'
 
 import { Header } from './layout/Header'
 import { filterPeople } from './pages/IndexPage/filterPeople'
 import { orderPeople } from './pages/orderPeople'
-import { getPeople, GetPeopleResponse } from './pages/personService'
+import { getPeople } from './pages/personService'
 import { OrderAndFilters } from './person/OrderAndFilters/OrderAndFilters'
 import { PersonList } from './person/list/PersonList'
 import { PersonListSkeleton } from './person/list/PersonListSkeleton'
-
-type People = GetPeopleResponse['data']['people']
+import { unwrapResult } from './result'
 
 export function App(): JSX.Element {
-  const [people, setPeople] = useState<People>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
+  const peopleQuery = useGetPeopleQuery()
 
   const { order, experience, name, onToggleOrder, onChangeFilters } =
     useFilters()
-
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true)
-
-      const result = await getPeople()
-
-      if (result.ok) {
-        setPeople(result.value.data.people)
-        setIsError(false)
-      } else {
-        setIsError(true)
-      }
-
-      setIsLoading(false)
-    }
-
-    fetchData()
-  }, [])
 
   const [isPending, startTransition] = useTransition()
 
@@ -61,18 +40,26 @@ export function App(): JSX.Element {
         onChangeFilters={handleChangeFilters}
       />
 
-      {isLoading && <PersonListSkeleton />}
+      {peopleQuery.isLoading && <PersonListSkeleton />}
 
-      {isError && <p>Oops! Things didn't work out!</p>}
+      {peopleQuery.isError && <p>Oops! Things didn't work out!</p>}
 
-      {!isLoading && !isError && (
+      {peopleQuery.isSuccess && (
         <PersonList
-          people={filterPeople(orderPeople(people, order), experience, name)}
+          people={filterPeople(
+            orderPeople(peopleQuery.data.data.people, order),
+            experience,
+            name
+          )}
           isUpdating={isPending}
         />
       )}
     </>
   )
+}
+
+function useGetPeopleQuery() {
+  return useQuery(['people'], async () => unwrapResult(await getPeople()))
 }
 
 type FilterState = {
