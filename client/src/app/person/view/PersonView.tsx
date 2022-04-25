@@ -1,16 +1,48 @@
 import styled from '@emotion/styled'
 
-export function PersonView(): JSX.Element {
+import { Avatar } from '../Avatar/Avatar'
+import { Experience } from '../Experience'
+
+type Props = {
+  person: Person
+}
+
+type Person = {
+  firstName: string
+  lastName: string
+  experience: number
+  email: string | null
+  avatar: string | null
+  description: string | null
+}
+
+export function PersonView({ person }: Props): JSX.Element {
   return (
     <Container>
-      {/* avatar */}
+      <Avatar
+        uri={person.avatar}
+        name={`${person.firstName} ${person.lastName}`}
+        size={200}
+      />
 
       <About>
         <Header>
-          <BasicInfo>{/* title, experience, email */}</BasicInfo>
+          <BasicInfo>
+            <Title>
+              {person.firstName} {person.lastName}
+            </Title>
+
+            <Experience years={person.experience} />
+
+            {person.email && <Email>{person.email}</Email>}
+          </BasicInfo>
         </Header>
 
-        {/* description */}
+        <Description>
+          {person.description?.split('\n\n').map((line, index) => (
+            <Paragraph key={index}>{line}</Paragraph>
+          ))}
+        </Description>
       </About>
     </Container>
   )
