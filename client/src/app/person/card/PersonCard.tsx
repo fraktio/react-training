@@ -13,6 +13,7 @@ export type Person = {
   experience: number
   email: string | null
   avatar: string | null
+  isStarred: boolean
 }
 
 export function PersonCard({ person }: Props): JSX.Element {
@@ -25,7 +26,7 @@ export function PersonCard({ person }: Props): JSX.Element {
 
       <About>
         <Title>
-          {person.firstName} {person.lastName}
+          {person.isStarred && <>⭑</>} {person.firstName} {person.lastName}
         </Title>
 
         <Experience years={person.experience} />

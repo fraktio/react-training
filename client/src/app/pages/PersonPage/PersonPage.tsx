@@ -8,10 +8,17 @@ import { unwrapResult } from '../../result'
 import { NotFoundPage } from '../NotFoundPage'
 import { getPerson } from '../personService'
 
+import { useToggleStarPersonMutation } from './useToggleStarPersonMutation'
+
 export function PersonPage(): JSX.Element {
   const { personUuid } = useParams<{ personUuid: string }>()
 
   const personQuery = useGetPersonQuery(personUuid ?? '')
+  const toggleStarPersonMutation = useToggleStarPersonMutation()
+
+  const handleToggleStarredPerson = (personUuid: string) => () => {
+    toggleStarPersonMutation.mutate({ personUuid })
+  }
 
   return (
     <>
@@ -21,7 +28,12 @@ export function PersonPage(): JSX.Element {
 
       {personQuery.isSuccess && (
         <Container>
-          <PersonView person={personQuery.data.data.person} />
+          <PersonView
+            person={personQuery.data.data.person}
+            onToggleStarred={handleToggleStarredPerson(
+              personQuery.data.data.person.uuid
+            )}
+          />
         </Container>
       )}
     </>
