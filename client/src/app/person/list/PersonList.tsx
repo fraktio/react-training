@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PersonCard, Person as PersonCardPerson } from '../card/PersonCard'
@@ -6,19 +7,24 @@ import { PersonCard, Person as PersonCardPerson } from '../card/PersonCard'
 import { PersonListHeader } from './PersonListHeader'
 
 type Props = {
+  title: ReactNode
   people: Person[]
-  isUpdating: boolean
+  isUpdating?: boolean
 }
 
 type Person = {
   uuid: string
 } & PersonCardPerson
 
-export function PersonList({ people, isUpdating }: Props): JSX.Element {
+export function PersonList({
+  title,
+  people,
+  isUpdating = false
+}: Props): JSX.Element {
   return (
     <div>
       <PersonListHeader
-        title="Potential candidates"
+        title={title}
         description={
           <>
             Showing {people.length} people {isUpdating && <> - updating...</>}

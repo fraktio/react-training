@@ -61,6 +61,7 @@ export function IndexPage({
 
       {peopleQuery.isSuccess && (
         <PersonList
+          title="Potential candidates"
           people={filterPeople(
             orderPeople(peopleQuery.data.data.people, order),
             experience,
