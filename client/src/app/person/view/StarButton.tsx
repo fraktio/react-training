@@ -5,9 +5,15 @@ type Props = {
   onToggleStarred: () => void
 }
 
-export function StarButton({ isStarred, onToggleStarred }: Props): JSX.Element {
+export function StarButton({
+  isStarred,
+  onToggleStarred
+}: Props): JSX.Element {
   return (
-    <Container onClick={onToggleStarred} isStarred={isStarred}>
+    <Container
+      onClick={onToggleStarred}
+      isStarred={isStarred}
+    >
       ⭑
     </Container>
   )
@@ -21,6 +27,8 @@ const Container = styled.button<{ isStarred: boolean }>(
     fontSize: theme.spacing(6),
     lineHeight: `${theme.spacing(6)}px`,
     cursor: 'pointer',
-    color: isStarred ? theme.colors.personStarred : theme.colors.personUnstarred
+    color: isStarred
+      ? theme.colors.personStarred
+      : theme.colors.personUnstarred
   })
 )

@@ -7,7 +7,8 @@ type Props = {
 export function Timer({ time }: Props): JSX.Element {
   return (
     <Container>
-      {Math.floor(time / 60)}:{(time % 60).toString().padStart(2, '0')}
+      {Math.floor(time / 60)}:
+      {(time % 60).toString().padStart(2, '0')}
     </Container>
   )
 }

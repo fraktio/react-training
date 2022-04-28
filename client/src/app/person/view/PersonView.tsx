@@ -3,8 +3,11 @@ import styled from '@emotion/styled'
 import { Avatar } from '../Avatar/Avatar'
 import { Experience } from '../Experience'
 
+import { StarButton } from './StarButton'
+
 type Props = {
   person: Person
+  onToggleStarred: () => void
 }
 
 type Person = {
@@ -14,9 +17,13 @@ type Person = {
   email: string | null
   avatar: string | null
   description: string | null
+  isStarred: boolean
 }
 
-export function PersonView({ person }: Props): JSX.Element {
+export function PersonView({
+  person,
+  onToggleStarred
+}: Props): JSX.Element {
   return (
     <Container>
       <Avatar
@@ -36,12 +43,19 @@ export function PersonView({ person }: Props): JSX.Element {
 
             {person.email && <Email>{person.email}</Email>}
           </BasicInfo>
+
+          <StarButton
+            isStarred={person.isStarred}
+            onToggleStarred={onToggleStarred}
+          />
         </Header>
 
         <Description>
-          {person.description?.split('\n\n').map((line, index) => (
-            <Paragraph key={index}>{line}</Paragraph>
-          ))}
+          {person.description
+            ?.split('\n\n')
+            .map((line, index) => (
+              <Paragraph key={index}>{line}</Paragraph>
+            ))}
         </Description>
       </About>
     </Container>

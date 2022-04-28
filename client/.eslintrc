@@ -6,7 +6,7 @@
       "error",
       {
         "tabWidth": 2,
-        "printWidth": 80,
+        "printWidth": 60,
         "semi": false,
         "singleQuote": true,
         "trailingComma": "none",

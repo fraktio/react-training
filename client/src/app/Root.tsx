@@ -1,11 +1,17 @@
 import { Global, ThemeProvider } from '@emotion/react'
-import { StrictMode, useState } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { StrictMode } from 'react'
+import {
+  QueryClient,
+  QueryClientProvider
+} from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 
 import { App } from './App'
-import { DarkModeContext, useDarkMode } from './DarkModeContext'
+import {
+  DarkModeContext,
+  useDarkMode
+} from './DarkModeContext'
 import { darkTheme, lightTheme } from './theme/theme'
 
 const queryClient = new QueryClient()
@@ -30,7 +36,9 @@ function RootWithContext() {
   const { isDarkMode } = useDarkMode()
 
   return (
-    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+    <ThemeProvider
+      theme={isDarkMode ? darkTheme : lightTheme}
+    >
       <Global
         styles={(theme) => ({
           html: {

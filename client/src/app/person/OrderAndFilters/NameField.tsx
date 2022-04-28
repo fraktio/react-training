@@ -11,7 +11,11 @@ export function NameField(): JSX.Element {
     <FieldGroup>
       <Label htmlFor="name">Name</Label>
 
-      <TextField type="text" id="name" {...register('name')} />
+      <TextField
+        type="text"
+        id="name"
+        {...register('name')}
+      />
     </FieldGroup>
   )
 }

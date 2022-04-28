@@ -23,10 +23,19 @@ type Person = {
   isStarred: boolean
 }
 
-export async function getPeople(): Promise<Result<GetPeopleResponse>> {
+export async function getPeople(
+  experience: number,
+  name: string
+): Promise<Result<GetPeopleResponse>> {
   return withResult(async () => {
     const { data } = await axios.get<GetPeopleResponse>(
-      `${config.API_URL}/people`
+      `${config.API_URL}/people`,
+      {
+        params: {
+          experience,
+          name
+        }
+      }
     )
 
     return data
@@ -64,9 +73,10 @@ export async function getRelatedPeople(
   uuid: string
 ): Promise<Result<GetRelatedPeopleResponse>> {
   return withResult(async () => {
-    const { data } = await axios.get<GetRelatedPeopleResponse>(
-      `${config.API_URL}/people/${uuid}/related`
-    )
+    const { data } =
+      await axios.get<GetRelatedPeopleResponse>(
+        `${config.API_URL}/people/${uuid}/related`
+      )
 
     return data
   })
@@ -82,9 +92,10 @@ export async function toggleStarPerson(
   uuid: string
 ): Promise<Result<ToggleStarPersonResponse>> {
   return withResult(async () => {
-    const { data } = await axios.post<ToggleStarPersonResponse>(
-      `${config.API_URL}/people/${uuid}/toggle-star`
-    )
+    const { data } =
+      await axios.post<ToggleStarPersonResponse>(
+        `${config.API_URL}/people/${uuid}/toggle-star`
+      )
 
     return data
   })

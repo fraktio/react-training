@@ -162,24 +162,28 @@ const HamsterTail = styled.div({
 
 const LegFrontRight = styled.div({
   animation: `${frontRightLeg} var(--dur) linear infinite`,
-  clipPath: 'polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%)',
+  clipPath:
+    'polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%)',
   top: '2em',
   left: '0.5em',
   width: '1em',
   height: '1.5em',
   transformOrigin: '50% 0',
-  background: 'linear-gradient(hsl(30, 90%, 80%) 80%, hsl(0, 90%, 75%) 80%)',
+  background:
+    'linear-gradient(hsl(30, 90%, 80%) 80%, hsl(0, 90%, 75%) 80%)',
   transform: 'rotate(15deg) translateZ(-1px)'
 })
 const LegFrontLeft = styled.div({
   animation: `${frontLeftLeg} var(--dur) linear infinite`,
-  clipPath: 'polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%)',
+  clipPath:
+    'polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%)',
   top: '2em',
   left: '0.5em',
   width: '1em',
   height: '1.5em',
   transformOrigin: '50% 0',
-  background: 'linear-gradient(hsl(30, 90%, 90%) 80%, hsl(0, 90%, 85%) 80%)',
+  background:
+    'linear-gradient(hsl(30, 90%, 90%) 80%, hsl(0, 90%, 85%) 80%)',
   transform: 'rotate(15deg)'
 })
 
@@ -193,7 +197,8 @@ const LegBackRight = styled.div({
   width: '1.5em',
   height: ' 2.5em',
   transformOrigin: ' 50% 30%',
-  background: 'linear-gradient(hsl(30, 90%, 80%) 90%, hsl(0, 90%, 75%) 90%)',
+  background:
+    'linear-gradient(hsl(30, 90%, 80%) 90%, hsl(0, 90%, 75%) 90%)',
   transform: 'rotate(-25deg) translateZ(-1px)'
 })
 
@@ -207,7 +212,8 @@ const LegBackLeft = styled.div({
   width: '1.5em',
   height: ' 2.5em',
   transformOrigin: ' 50% 30%',
-  background: 'linear-gradient(hsl(30, 90%, 90%) 90%, hsl(0, 90%, 85%) 90%)',
+  background:
+    'linear-gradient(hsl(30, 90%, 90%) 90%, hsl(0, 90%, 85%) 90%)',
   transform: 'rotate(-25deg)'
 })
 

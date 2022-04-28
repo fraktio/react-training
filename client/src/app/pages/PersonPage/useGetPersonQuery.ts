@@ -2,7 +2,10 @@ import axios from 'axios'
 import { useQuery, UseQueryResult } from 'react-query'
 
 import { unwrapResult } from '../../result'
-import { getPerson, GetPersonResponse } from '../personService'
+import {
+  getPerson,
+  GetPersonResponse
+} from '../personService'
 
 export function useGetPersonQuery(
   personUuid: string
@@ -15,7 +18,10 @@ export function useGetPersonQuery(
     {
       enabled: Boolean(personUuid),
       retry: (failureCount, error) => {
-        if (axios.isAxiosError(error) && error.response?.status === 404) {
+        if (
+          axios.isAxiosError(error) &&
+          error.response?.status === 404
+        ) {
           return false
         }
 

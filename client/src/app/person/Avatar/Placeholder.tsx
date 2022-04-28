@@ -7,7 +7,10 @@ type Props = {
   size?: number
 }
 
-export function Placeholder({ name, size }: Props): JSX.Element {
+export function Placeholder({
+  name,
+  size
+}: Props): JSX.Element {
   return (
     <Img
       src={placeholderSvg}

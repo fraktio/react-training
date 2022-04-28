@@ -8,12 +8,23 @@ type Props = {
   size?: number
 }
 
-export function Avatar({ uri, name, size }: Props): JSX.Element {
+export function Avatar({
+  uri,
+  name,
+  size
+}: Props): JSX.Element {
   if (!uri) {
     return <Placeholder name={name} size={size} />
   }
 
-  return <Img src={uri} alt={name} width={size ?? 64} height={size ?? 64} />
+  return (
+    <Img
+      src={uri}
+      alt={name}
+      width={size ?? 64}
+      height={size ?? 64}
+    />
+  )
 }
 
 const Img = styled.img({})

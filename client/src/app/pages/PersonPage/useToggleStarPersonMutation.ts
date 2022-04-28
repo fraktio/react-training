@@ -1,4 +1,8 @@
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient
+} from 'react-query'
 
 import { unwrapResult } from '../../result'
 import {
@@ -24,26 +28,35 @@ export function useToggleStarPersonMutation(): UseMutationResult<
     unknown,
     ToggleStarPersonMutationVariables
   >(
-    async ({ personUuid }) => unwrapResult(await toggleStarPerson(personUuid)),
+    async ({ personUuid }) =>
+      unwrapResult(await toggleStarPerson(personUuid)),
     {
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(['people', variables.personUuid])
-
-        const peopleData = queryClient.getQueryData<GetPeopleResponse>([
-          'people'
+        queryClient.invalidateQueries([
+          'people',
+          variables.personUuid
         ])
+
+        const peopleData =
+          queryClient.getQueryData<GetPeopleResponse>([
+            'people'
+          ])
 
         if (peopleData) {
           queryClient.setQueryData(['people'], {
             ...peopleData,
             data: {
-              people: peopleData.data.people.map((person) => {
-                if (person.uuid === variables.personUuid) {
-                  return data.data.person
-                }
+              people: peopleData.data.people.map(
+                (person) => {
+                  if (
+                    person.uuid === variables.personUuid
+                  ) {
+                    return data.data.person
+                  }
 
-                return person
-              })
+                  return person
+                }
+              )
             }
           })
         }
