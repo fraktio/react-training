@@ -74,9 +74,10 @@ Start by cloning this repository.
 
 If you don't know how to use Git then please spend some time to [learn the basics](https://guides.github.com/introduction/git-handbook/).
 
-`step0` is the branch that contains the starting point for our training.
+`main` is the branch that contains the starting point for our training.
 
-- `git checkout step0`
+If you just cloned no need to do anything. If unsure it doesn't hurt to run
+- `git checkout main`
 
 ### client
 
