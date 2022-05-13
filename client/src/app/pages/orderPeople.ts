@@ -3,7 +3,7 @@ type Person = {
   lastName: string
 }
 
-type Order = 'asc' | 'desc'
+export type Order = 'asc' | 'desc'
 
 export function orderPeople<T extends Person>(people: T[], order: Order): T[] {
   return [...people].sort((a, b) => {

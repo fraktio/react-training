@@ -1,19 +1,19 @@
 import { Button } from '../../layout/Button'
+import { Order } from '../../pages/orderPeople'
 
 import { FieldGroup, Label } from './styles'
 
-export function OrderField(): JSX.Element {
+type Props = {
+  order: Order
+  onToggleOrder: () => void
+}
+
+export function OrderField({ order, onToggleOrder }: Props): JSX.Element {
   return (
     <FieldGroup>
       <Label>Order</Label>
 
-      <Button
-        onClick={() => {
-          console.log('click')
-        }}
-      >
-        Click!
-      </Button>
+      <Button onClick={onToggleOrder}>Change Order! ({order})</Button>
     </FieldGroup>
   )
 }

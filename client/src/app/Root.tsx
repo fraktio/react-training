@@ -1,5 +1,5 @@
 import { Global, ThemeProvider } from '@emotion/react'
-import { StrictMode, useState } from 'react'
+import { StrictMode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
