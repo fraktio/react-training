@@ -9,15 +9,18 @@ type Person = {
 } & PersonCardPerson
 
 type Props = {
+  isUpdating: boolean
   people: Person[]
 }
 
-export function PersonList({ people }: Props): JSX.Element {
+export function PersonList({ isUpdating, people }: Props): JSX.Element {
   return (
     <div>
       <PersonListHeader
         title="Potential Candidates"
-        description={<>Showing {people.length} people</>}
+        description={
+          isUpdating ? <>Updating...</> : <>Showing {people.length} people</>
+        }
       />
       <ListContainer>
         {people.map((person) => (

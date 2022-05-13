@@ -1,36 +1,38 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useReducer, useTransition } from 'react'
+import { useQuery } from 'react-query'
 
 import { Header } from './layout/Header'
 import { filterPeople } from './pages/IndexPage/filterPeople'
 import { Order, orderPeople } from './pages/orderPeople'
-import { getPeople, GetPeopleResponse } from './pages/personService'
+import { getPeople } from './pages/personService'
 import { OrderAndFilters } from './person/OrderAndFilters/OrderAndFilters'
 import { PersonList } from './person/list/PersonList'
 import { PersonListSkeleton } from './person/list/PersonListSkeleton'
-
-type People = GetPeopleResponse['data']['people']
+import { unwrapResult } from './result'
 
 export function App(): JSX.Element {
-  const [people, setPeople] = useState<People>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const { data, isError, isLoading } = useGetPeopleQuery()
+  const people = data?.data.people
+
   const { filters, onChangeFilters, onToggleOrder } = useFilters()
 
-  useEffect(() => {
-    ;(async () => {
-      setIsLoading(true)
-      const result = await getPeople()
+  const handleToggleOrder = () => {
+    // startTransition(() => dispatch({ type: 'TOGGLE_ORDER' }))
+    startTransition(() => onToggleOrder())
+  }
 
-      if (result.ok) {
-        setPeople(result.value.data.people)
-        setIsError(false)
-      } else {
-        setIsError(true)
-      }
+  const handleChangeFilters = (experience: number, name: string) => {
+    // startTransition(() => dispatch({
+    //   type: 'CHANGE_FILTERS',
+    //   payload: {
+    //     experience,
+    //     name
+    //   }
+    // }))
+    startTransition(() => onChangeFilters(experience, name))
+  }
 
-      setIsLoading(false)
-    })()
-  }, [])
+  const [isPending, startTransition] = useTransition()
 
   return (
     <>
@@ -38,23 +40,30 @@ export function App(): JSX.Element {
 
       <OrderAndFilters
         order={filters.order}
-        onToggleOrder={onToggleOrder}
-        onChangeFilters={onChangeFilters}
+        onToggleOrder={handleToggleOrder}
+        onChangeFilters={handleChangeFilters}
       />
 
       {isLoading && <PersonListSkeleton />}
 
       {isError && <>Oops! sorry.</>}
 
-      <PersonList
-        people={filterPeople(
-          orderPeople(people, filters.order),
-          filters.experience,
-          filters.name
-        )}
-      />
+      {people && (
+        <PersonList
+          isUpdating={isPending}
+          people={filterPeople(
+            orderPeople(people, filters.order),
+            filters.experience,
+            filters.name
+          )}
+        />
+      )}
     </>
   )
+}
+
+function useGetPeopleQuery() {
+  return useQuery(['people'], async () => unwrapResult(await getPeople()))
 }
 
 type FilterState = {
