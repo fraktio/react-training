@@ -1,12 +1,15 @@
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
 
+import { DarkModeButton } from './DarkModeButton'
+
 export function Header(): JSX.Element {
   return (
     <Container>
       <Link to="/">
         <Title>Epic recruitment application</Title>
       </Link>
+      <DarkModeButton />
     </Container>
   )
 }
