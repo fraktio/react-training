@@ -12,10 +12,12 @@ type Props = {
 export function OrderField({ onToggleOrder, order }: Props): JSX.Element {
   return (
     <FieldGroup>
-      <Label>Order</Label>
+      <Label role="status" aria-live="polite">
+        Order, {order === 'asc' ? 'ascending' : 'descending'}
+      </Label>
 
       <Button onClick={onToggleOrder}>
-        {order === 'asc' ? 'A -> Z' : 'Z -> A'}
+        {order === 'asc' ? 'Switch to descending' : 'Switch to descending'}
       </Button>
     </FieldGroup>
   )

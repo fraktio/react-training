@@ -8,7 +8,7 @@ export function DarkModeButton(): JSX.Element {
 
   return (
     <Button onClick={onToggleDarkMode}>
-      {isDarkMode ? <>Light</> : <>Dark</>}
+      {isDarkMode ? <>Switch to light mode</> : <>Switch to dark mode</>}
     </Button>
   )
 }

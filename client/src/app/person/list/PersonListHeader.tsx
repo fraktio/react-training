@@ -11,7 +11,11 @@ export function PersonListHeader({ title, description }: Props): JSX.Element {
     <ListHeader>
       <ListTitle>{title}</ListTitle>
 
-      {description && <Description>{description}</Description>}
+      {description && (
+        <Description role="status" aria-live="polite">
+          {description}
+        </Description>
+      )}
     </ListHeader>
   )
 }
