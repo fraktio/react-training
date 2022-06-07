@@ -6,18 +6,23 @@ import { PersonListHeader } from './PersonListHeader'
 
 type Props = {
   people: Person[]
+  isUpdating: boolean
 }
 
 type Person = {
   uuid: string
 } & PersonCardPerson
 
-export function PersonList({ people }: Props): JSX.Element {
+export function PersonList({ people, isUpdating }: Props): JSX.Element {
   return (
     <div>
       <PersonListHeader
         title="Potential candidates"
-        description={<>Showing {people.length} people</>}
+        description={
+          <>
+            Showing {people.length} people {isUpdating && <>- updating...</>}
+          </>
+        }
       />
 
       <PersonListContainer>

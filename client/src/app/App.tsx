@@ -1,17 +1,35 @@
-import { useReducer, useState } from 'react'
+import { useEffect, useReducer, useState, useTransition } from 'react'
+import { useQuery } from 'react-query'
 
 import { Header } from './layout/Header'
 import { filterPeople } from './pages/IndexPage/filterPeople'
 import { orderPeople } from './pages/orderPeople'
-import { people } from './people'
+import { getPeople, GetPeopleResponse } from './pages/personService'
 import { OrderAndFilters } from './person/OrderAndFilters/OrderAndFilters'
 import { PersonList } from './person/list/PersonList'
+import { PersonListSkeleton } from './person/list/PersonListSkeleton'
+import { unwrapResult } from './result'
 
 type Order = 'asc' | 'desc'
 
 export function App(): JSX.Element {
+  const peopleQuery = useGetPeopleQuery()
   const { order, experience, name, onChangeFilters, onToggleOrder } =
     useFilters()
+
+  const [isPending, startTransition] = useTransition()
+
+  function handleToggleOrder() {
+    startTransition(() => {
+      onToggleOrder()
+    })
+  }
+
+  function handleChangeFilters(experience: number, name: string) {
+    startTransition(() => {
+      onChangeFilters(experience, name)
+    })
+  }
 
   return (
     <>
@@ -19,15 +37,27 @@ export function App(): JSX.Element {
 
       <OrderAndFilters
         order={order}
-        onToggleOrder={onToggleOrder}
-        onChangeFilters={onChangeFilters}
+        onToggleOrder={handleToggleOrder}
+        onChangeFilters={handleChangeFilters}
       />
-
-      <PersonList
-        people={filterPeople(orderPeople(people, order), experience, name)}
-      />
+      {peopleQuery.isLoading && <PersonListSkeleton />}
+      {peopleQuery.isError && <p>Oops! Couldn't get people list.</p>}
+      {peopleQuery.isSuccess && (
+        <PersonList
+          people={filterPeople(
+            orderPeople(peopleQuery.data.data.people, order),
+            experience,
+            name
+          )}
+          isUpdating={isPending}
+        />
+      )}
     </>
   )
+}
+
+function useGetPeopleQuery() {
+  return useQuery(['people'], async () => unwrapResult(await getPeople()))
 }
 
 type FilterState = {
