@@ -6,5 +6,5 @@ import { Root } from '../app/Root'
 test('renders the main screen', async () => {
   const { getByText } = render(<Root />)
 
-  expect(getByText(/Epic recruitment software/)).toBeInTheDocument()
+  expect(getByText(/Epic recruitment application/)).toBeInTheDocument()
 })
