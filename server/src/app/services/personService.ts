@@ -25,7 +25,9 @@ export function generatePeople(amount: number): Person[] {
       firstName,
       lastName,
       experience,
-      email: probability(25) ? null : faker.internet.email(firstName, lastName).toLowerCase(),
+      email: probability(25)
+        ? null
+        : faker.internet.email(firstName, lastName).toLowerCase(),
       avatar: probability(25) ? null : getAvatar(firstName, lastName),
       description: probability(20) ? null : faker.lorem.paragraphs(3, '\n\n'),
       isStarred: false
@@ -33,7 +35,10 @@ export function generatePeople(amount: number): Person[] {
   })
 }
 
-export function removePerson(people: Array<Person>, uuid: string): Array<Person> {
+export function removePerson(
+  people: Array<Person>,
+  uuid: string
+): Array<Person> {
   return people.filter((person) => person.uuid !== uuid)
 }
 

@@ -7,10 +7,10 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
-    "tsc": "tsc",
+    "prettify": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "react-scripts test",
     "test-once": "cross-env CI=true react-scripts test",
-    "test-all": "yarn lint && yarn tsc && yarn test-once"
+    "test-all": "yarn prettify && yarn lint && yarn tsc && yarn test-once"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,7 +53,6 @@
     "@types/uuid": "^8.3.4",
     "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "msw": "^0.39.2",
     "mutationobserver-shim": "^0.3.7",
     "prettier": "^2.6.2"

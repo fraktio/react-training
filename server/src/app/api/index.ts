@@ -1,6 +1,11 @@
 import { Router } from 'express'
 
-import { generatePeople, removePerson, addPerson, Person } from '../services/personService'
+import {
+  generatePeople,
+  removePerson,
+  addPerson,
+  Person
+} from '../services/personService'
 import { delay } from '../util/delay'
 
 export function createApi(): Router {

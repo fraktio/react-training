@@ -1,18 +1,7 @@
 {
-  "extends": "react-app",
-  "plugins": ["prettier", "react-hooks", "@emotion"],
+  "extends": ["react-app", "prettier"],
+  "plugins": ["react-hooks", "@emotion"],
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "tabWidth": 2,
-        "printWidth": 80,
-        "semi": false,
-        "singleQuote": true,
-        "trailingComma": "none",
-        "endOfLine": "lf"
-      }
-    ],
     "import/no-default-export": 2,
     "import/no-duplicates": 2,
     "import/newline-after-import": 2,
