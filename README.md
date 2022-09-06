@@ -8,7 +8,7 @@ Welcome to this two-day React training! It is very important that you **read and
 
 - You are a developer, devsigner or such with working professional knowledge on JavaScript, HTML and CSS. You don't have to be a guru, but the training is not suitable for total beginners.
 - Learn the ES6 syntax (see below) beforehand so you don't have to spend time learning it in the training.
-- We are going to show code examples and use [TypeScript](http://www.typescriptlang.org/) in our training so it will help you immensely to know the basics. However, you don't have to write TypeScript if you don't want to.
+- We are going to show code examples and use [TypeScript](http://www.typescriptlang.org/) in our training so it will help you immensely to know the basics. However, you don't have to write TypeScript if you don't want to, but we highly recommend it.
 
 ### ES6 syntax
 
@@ -29,12 +29,16 @@ import React, { useState } from 'react'
 export function App() {
   ...
 }
+
+export const App = () => {
+  ...
+}
 ```
 
 - Arrow function syntax
 
 ```js
-const getStuff = (id) => {  ... }
+const getStuff = (id) => { ... }
 ```
 
 - Array / object destructing
@@ -60,11 +64,11 @@ const stuff = await getStuff()
 - A recent version of [Node.js](https://nodejs.org/en/). Node.js 10 or newer will likely work.
 - The [Yarn](https://yarnpkg.com/lang/en/) package manager is recommended. NPM will work too if you're old school.
 - [VSCode](https://code.visualstudio.com/) is the recommended editor and the project is preconfigured to work with it. Other editors / IDEs will of course work too but are not officially supported.
-  - When opening the `client` directory in VSCode the first time the editor will ask you to install [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) extension. If not [install it by yourself](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+  - When opening the `client` directory in VSCode the first time the editor will ask you to install [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions. If not, [install](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) [them](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) by yourself.
 
 ### Browser extensions
 
-Install these Chrome extensions, or similar ones for your browser of choice.
+(Optionally) install these Chrome extensions, or similar ones for your browser of choice.
 
 - [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
 
