@@ -7,7 +7,7 @@
     "import/newline-after-import": 2,
     "import/no-cycle": 2,
     "import/order": [
-      "error",
+      "warn",
       {
         "alphabetize": {
           "order": "asc"
@@ -23,10 +23,10 @@
     ],
     "react-hooks/rules-of-hooks": 2,
     "react-hooks/exhaustive-deps": 2,
-    "@typescript-eslint/explicit-module-boundary-types": "error",
-    "@emotion/pkg-renaming": "error",
-    "@emotion/no-vanilla": "error",
-    "@emotion/import-from-emotion": "error",
-    "@emotion/styled-import": "error"
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
+    "@emotion/pkg-renaming": "warn",
+    "@emotion/no-vanilla": "warn",
+    "@emotion/import-from-emotion": "warn",
+    "@emotion/styled-import": "warn"
   }
 }
