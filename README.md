@@ -97,6 +97,6 @@ Open browser and go to http://localhost:3000/. You should see a very simple welc
 - `yarn` to install packages
 - `yarn start` to start the server
 
-Open browser and go to http://localhost:8889/persons and you should see big list of persons in JSON.
+Open browser and go to http://localhost:8889/people and you should see big list of persons in JSON.
 
 If you can open both the client and the server successfully in your browser then you are good to go!
