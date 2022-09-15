@@ -25,7 +25,7 @@ export function PersonCard({ person }: Props): JSX.Element {
 
       <About>
         <Title>
-          {person.firstName} {person.lastName}
+          {person.lastName}, {person.firstName}
         </Title>
 
         <Experience years={person.experience} />
