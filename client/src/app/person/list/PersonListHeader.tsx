@@ -6,12 +6,17 @@ type Props = {
   description?: ReactNode
 }
 
-export function PersonListHeader({ title, description }: Props): JSX.Element {
+export function PersonListHeader({
+  title,
+  description
+}: Props): JSX.Element {
   return (
     <ListHeader>
       <ListTitle>{title}</ListTitle>
 
-      {description && <Description>{description}</Description>}
+      {description && (
+        <Description>{description}</Description>
+      )}
     </ListHeader>
   )
 }
