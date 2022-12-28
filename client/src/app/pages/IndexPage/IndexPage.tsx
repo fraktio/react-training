@@ -1,3 +1,127 @@
+import { useTransition, useReducer } from 'react'
+import { useQuery } from 'react-query'
+import { Header } from '../../layout/Header'
+import { PersonList } from '../../person/list/PersonList'
+import { PersonListSkeleton } from '../../person/list/PersonListSkeleton'
+import { OrderAndFilters } from '../../person/OrderAndFilters/OrderAndFilters'
+import { unwrapResult } from '../../result'
+import { orderPeople } from '../orderPeople'
+import { getPeople } from '../personService'
+import { filterPeople } from './filterPeople'
+
 export function IndexPage(): JSX.Element {
-  return <>index page</>
+  const peopleQuery = useGetPeopleQuery()
+
+  const { order, experience, name, onToggleOrder, onChangeFilters } =
+    useFilters()
+
+  const [isPending, startTransition] = useTransition()
+
+  const handleToggleOrder = () => {
+    startTransition(() => {
+      onToggleOrder()
+    })
+  }
+
+  const handleChangeFilters = (experience: number, name: string) => {
+    startTransition(() => {
+      onChangeFilters(experience, name)
+    })
+  }
+
+  return (
+    <>
+      <Header />
+
+      <OrderAndFilters
+        order={order}
+        onToggleOrder={handleToggleOrder}
+        onChangeFilters={handleChangeFilters}
+      />
+
+      {peopleQuery.isLoading && <PersonListSkeleton />}
+
+      {peopleQuery.isError && (
+        <p>Oops! Error happened. Try reloading. Maybe. It. Helps.</p>
+      )}
+
+      {peopleQuery.isSuccess && (
+        <PersonList
+          people={filterPeople(
+            orderPeople(peopleQuery.data.data.people, order),
+            experience,
+            name
+          )}
+          isUpdating={isPending}
+        />
+      )}
+    </>
+  )
+}
+
+function useGetPeopleQuery() {
+  return useQuery(['people'], async () => unwrapResult(await getPeople()))
+}
+
+type Order = 'asc' | 'desc'
+
+type FilterState = {
+  order: Order
+  experience: number
+  name: string
+}
+
+type FilterAction = ToggleOrderAction | ChangeFilterAction
+
+type ToggleOrderAction = {
+  type: 'TOGGLE_ORDER'
+}
+
+type ChangeFilterAction = {
+  type: 'CHANGE_FILTERS'
+  payload: {
+    name: string
+    experience: number
+  }
+}
+
+const initialState: FilterState = {
+  experience: 0,
+  name: '',
+  order: 'asc'
+}
+
+function filterReducer(state: FilterState, action: FilterAction): FilterState {
+  switch (action.type) {
+    case 'TOGGLE_ORDER':
+      return {
+        ...state,
+        order: state.order === 'asc' ? 'desc' : 'asc'
+      }
+    case 'CHANGE_FILTERS':
+      return {
+        ...state,
+        name: action.payload.name,
+        experience: action.payload.experience
+      }
+
+    default:
+      return state
+  }
+}
+
+function useFilters() {
+  const [state, dispatch] = useReducer(filterReducer, initialState)
+
+  const handleToggleOrder = () => dispatch({ type: 'TOGGLE_ORDER' })
+  const handleChangeFilters = (experience: number, name: string) =>
+    dispatch({ type: 'CHANGE_FILTERS', payload: { experience, name } })
+
+  return {
+    order: state.order,
+    experience: state.experience,
+    name: state.name,
+    onToggleOrder: handleToggleOrder,
+    onChangeFilters: handleChangeFilters
+  }
 }

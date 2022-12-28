@@ -1,11 +1,34 @@
 import styled from '@emotion/styled'
+import { Avatar } from '../Avatar/Avatar'
+import { Experience } from '../Experience'
 
-export function PersonCard(): JSX.Element {
+type Props = {
+  person: Person
+}
+
+export type Person = {
+  firstName: string
+  lastName: string
+  experience: number
+  email: string | null
+  avatar: string | null
+}
+
+export function PersonCard({ person }: Props): JSX.Element {
   return (
     <Container>
-      {/* avatar */}
+      <Avatar
+        uri={person.avatar}
+        name={`${person.firstName} ${person.lastName}`}
+      />
 
-      <About>{/* title, experience, email */}</About>
+      <About>
+        <Title>
+          {person.firstName} {person.lastName}
+        </Title>
+        <Experience years={person.experience} />
+        {person.email && <Email>{person.email}</Email>}
+      </About>
     </Container>
   )
 }

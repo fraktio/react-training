@@ -1,23 +1,36 @@
 import { useEffect } from 'react'
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form'
+import { ExperienceField } from './ExperienceField'
+import { NameField } from './NameField'
 
 export type Data = {
   experience?: string
   name?: string
 }
 
-export function FiltersForm(): JSX.Element {
-  const form = useForm<Data>()
+type Props = {
+  onSubmit: (experience: number, name: string) => void
+}
+
+export function FiltersForm({ onSubmit }: Props): JSX.Element {
+  const form = useForm<Data>({
+    defaultValues: {
+      experience: '0'
+    }
+  })
 
   const handleSubmit = (data: Data) => {
-    console.log(data)
+    onSubmit(data.experience ? Number(data.experience) : 0, data.name ?? '')
   }
 
   useSubmitOnChange(form, handleSubmit)
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>{/* fields */}</form>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <NameField />
+        <ExperienceField />
+      </form>
     </FormProvider>
   )
 }

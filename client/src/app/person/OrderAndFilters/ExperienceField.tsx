@@ -18,6 +18,7 @@ export function ExperienceField(): JSX.Element {
         min={0}
         max={25}
         id="experience"
+        defaultValue={0}
         {...register('experience')}
       />
 
