@@ -61,7 +61,7 @@ const stuff = await getStuff()
 ## Computer requirements
 
 - MacOS and Linux will definitely work. Windows should probably work too, but please test it before hand!
-- A recent version of [Node.js](https://nodejs.org/en/). Node.js 10 or newer will likely work.
+- A recent version of [Node.js](https://nodejs.org/en/). Node.js 16 or newer will likely work.
 - The [Yarn](https://yarnpkg.com/lang/en/) package manager is recommended. NPM will work too if you're old school.
 - [VSCode](https://code.visualstudio.com/) is the recommended editor and the project is preconfigured to work with it. Other editors / IDEs will of course work too but are not officially supported.
   - When opening the `client` directory in VSCode the first time the editor will ask you to install [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions. If not, [install](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) [them](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) by yourself.

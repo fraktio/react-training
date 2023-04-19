@@ -10,6 +10,7 @@
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "prettify": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "vitest",
+    "start": "npm run dev",
     "coverage": "vitest run --coverage"
   },
   "eslintConfig": {
@@ -53,6 +54,7 @@
     "@vitejs/plugin-react": "^2.2.0",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
     "jsdom": "^20.0.3",
     "msw": "^0.49.1",
     "mutationobserver-shim": "^0.3.7",
