@@ -1,11 +1,13 @@
 import { Header } from './layout/Header'
+import { people } from './people'
+import { PersonList } from './person/list/PersonList'
 
 export function App(): JSX.Element {
   return (
     <>
       <Header />
 
-      <p>Let's build something mighty!</p>
+      <PersonList people={people} />
     </>
   )
 }
