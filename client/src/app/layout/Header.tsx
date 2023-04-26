@@ -9,9 +9,10 @@ export function Header(): JSX.Element {
   const [time, setTime] = useState(0)
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTime((previousTime) => previousTime + 1)
-    }, 1000)
+    const intervalId = setInterval(
+      () => setTime((previousTime) => previousTime + 1),
+      1000
+    )
 
     return () => clearInterval(intervalId)
   }, [])
